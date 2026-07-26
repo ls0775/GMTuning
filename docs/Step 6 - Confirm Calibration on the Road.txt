@@ -1,0 +1,146 @@
+00:00	- So we've come to the final step in our six step reflashing process and that's to confirm the results that we've seen on the dyno, out on the road or the racetrack, out in real world conditions.
+00:11	And I know this is an area that a lot of tuners overlook, or choose not to do, and in my experience, in my years of reflashing cars, I've always found that it is valuable to confirm what's actually happening out in the real world.
+00:26	Let's first of all, talk about why we might need to do this.
+00:30	No matter how well designed your dyno bay is, it's very difficult to accurately replicate the airflow and temperatures you're likely to see when you're driving the car at speed, on the road or racetrack.
+00:42	So what we really want to do, is make sure that the results we saw on the dyno are the same as what we're seeing out in the real world where the car is going to be driven or raced.
+00:53	If we've done our job correctly and we've been careful with the way we've gone about our task, there should be very little or perhaps even no work to do here.
+01:01	But I have seen instances where the engine ran leaner, or perhaps richer, on the road than it did on the dyno.
+01:08	And likewise, we can find instances where the engine is suffering from knock or detonation, out on the road or racetrack, which we couldn't replicate on the dyno.
+01:17	Particularly, aspects such as transience during gear changes etc.
+01:22	These are quite difficult for us to properly replicate on the dyno.
+01:27	Okay, so, we're going to go about this task in a few different ways.
+01:31	And what we're going to do is start by confirming that our fuel trims are very close to zero.
+01:38	And what I want to do here, is just make sure that the MAF or the Speed Density tables, or both, were correctly calibrated on the dyno, and if we've done our job there, what we should find in the cruise area is, that our fuel trims are very, very close to zero.
+01:54	Now, when we're doing this, what we want to do is simply go for a drive, and I'm going to do that now, and we want to make sure that the way we drive the car is very smooth and we're looking for what the fuel trims are doing in the cruise areas.
+02:09	So, for a street car in particular, we're looking to drive the car exactly the same way we would actually drive it out on the road.
+02:17	We're looking for our normal cruise speeds, and we're looking for smooth application of the throttle, so we don't want to be looking at making sharp, aggressive changes to the throttle.
+02:28	The other thing we want to do before we actually start looking at scanning any real data, is make sure that the engine has reached normal operating temperature.
+02:38	So, particularly if we've had the engine sitting idling for a long period of time, the whole engine bay's going to be heat soaked.
+02:45	Likely, that we're going to see exceptionally high engine coolant temperatures, and intake air temperatures, and that's not going to give us consistent and reliable data, so we want to make sure that our air temperature, in particular, is as close to what we normally expect to see under equilibrium conditions, so constant, steady state speed, out on the open road and we want to get that as close as we possibly can.
+03:11	Once everything's settled down, and we're seeing stable air intake temperature and engine coolant temperature, we can start scanning some data and I'm just going to do that now.
+03:22	One of the beauties of reflashing is that we don't really need to be looking at our laptop while we're making these scans.
+03:31	We can simply drive the car, concentrate on controlling the car, making sure that we're not doing anything silly, we've got the car in the right place on the road or the racetrack.
+03:40	We're watching for other vehicles, and then in safety, on the side of the road, or in the pits, we can then have a look at our logged file and analyse the data.
+03:51	Now while I am driving the car here, I do have my wide band metre suction cupped to the windscreen, and this is just letting me watch what the air-fuel ratio is doing, while I'm cruising around.
+04:04	Now obviously, we're in closed loop here, while we're performing this test, so we should expect to see our air-fuel ratio sitting at 14.7:1, lambda 1.0, which is exactly what I've got.
+04:18	The lambda metre becomes more valuable, suction cupped to the windscreen when we're doing our full throttle testing, which we'll be doing shortly.
+04:26	So what we want to do, is gather as much data as we can in those cruise areas of the engine's operation and once we've done that, we can return to the pits and we can have a look at that data, and decide if we need to make any changes based on what we're seeing.
+04:44	So let's pop back into the pits now and let's see what our data looks like.
+04:49	How we're going to look at this data, is going to depend on exactly what changes we may need to make to our engine control module, and that means whether we're using the Mass Air Flow sensor on its own, whether we're using the Mass Air Flow sensor, combined with the Speed Density, or whether we're running Speed Density alone.
+05:09	Let's just have a look quickly, so we're back here at idle and you can see in this area, we've got our short term and long term fuel trims, being displayed.
+05:18	And as we already know, I've disabled the long term fuel trim so we're only seeing our short term fuel trims actually moving.
+05:24	Now we can simply move through our data, by sliding along to look at the full range of our data and straight away, at a glimpse, you can see that regardless of where I am, our short term fuel trims are very, very close to zero, so this is exactly what I'd expect to see, exactly what I want to see.
+05:44	However, it is also very difficult to accurately look at all of our data using our time graphs, our chart logger, like this.
+05:53	So let's pull our histograms over, and we can see how we could use our histograms.
+05:59	Now the histogram I'm looking at, at the moment, is our short term fuel trim histogram and we can see that our short term fuel trim histogram, at the moment, is set up with manifold absolute pressure as the load axis, we've obviously got engine RPM as our horizontal axis.
+06:16	How we're going to set up this histogram is going to depend on the task we are going to be performing so obviously manifold absolute pressure's no good to us, if we're going to be rescaling our Mass Air Flow sensor to account for errors.
+06:29	Likewise, if we had this set up on Mass Air Flow frequency, that's not going to help us much if we're rescaling or making changes to our Speed Density tables.
+06:40	However, what we're looking at here, is just a general trend for the numbers in this table and I'm going to disregard these values right down at the bottom.
+06:51	At the moment, we don't have our deceleration fuel cutoff disabled, and very low vacuum where I've closed the throttle, it's likely that the engine control module will shut off fueling momentarily on overrun.
+07:05	This can result in very big discrepancies between commanded and measured air-fuel ratio and it results in these sorts of numbers we can see here.
+07:14	However, what I'm looking is the data, particularly in the area we're actually going to be cruising in.
+07:20	Just generally, in this area here, remembering that my aim is generally, sort of plus or minus 5% at a maximum.
+07:28	However, obviously the closer we get to that, the better and you can see for the most part, that's exactly where my data is lying.
+07:35	We do have a couple of sevens here.
+07:38	I'm not going to concern myself with that.
+07:41	What you decide to do with this data, is really going to depend on how fussy you want to be, how accurate you want to get your commanded and measured air-fuel ratio.
+07:53	Remember, trying to chase an absolutely perfect trim of 0% is pretty futile, you're never going to get there, and that's I suggest that a range of plus or minus 5% is going to give us good control and it's also going to make our job tuning relatively easy.
+08:10	So, for this part of our test, we're going to say that our tune is accurate, we're going to say that we've passed, our closed loop trims are accurate.
+08:21	One more note I will just add there.
+08:24	Obviously, as I've discussed, we've got our long term fuel trims deactivated here and if you were still retaining your long term fuel trims, what we would need to do is actually look at the long term and short term fuel trims together.
+08:40	There is a math parameter in the VCM scanner that we can use to show us the combined fuel trims.
+08:47	So that's what we would do if you have retained your long term fuel trims.
+08:52	Alright, so that's the first part of our road confirmation done.
+08:56	We've looked at our cruise mixtures, we've looked at our fuel trims and we've confirmed that our scaling of our MAF, our scaling of our Speed Density is accurate.
+09:08	The next task we're going to look at, is how the engine's performing under wide open throttle.
+09:14	Now, for our wide open throttle test, we essentially want to do exactly the same task.
+09:18	We want to get the engine coolant temperature and our engine intake air temperature down to our normal operating conditions.
+09:26	Now we want to test the engine under wide open throttle operation, with as much load on it as we can.
+09:32	So we're just going to set our scanner running again, and we're going to head back out on to the track now and we're going to allow all of those temperatures to stabilise and reach normal conditions.
+09:45	Now, when we are doing our wide open throttle testing, this does get a little bit more difficult because to get really good, solid data, we really want to see what the engine's doing with a high amount of load on it, and to do that, we really need to test in the higher gears.
+10:04	If we did an acceleration test, for example through first gear, that's probably not going to give us a lot of information.
+10:11	We're likely to have the engine suffering, the vehicle suffering from wheel spin as well.
+10:16	It's going to affect the quality of our data, so we really need to test, in third, or perhaps fourth gear.
+10:23	And what you can do here, is going to depend on the situation that you can test under.
+10:28	Obviously here, we're on a racetrack, so I don't need to worry about speed limits or oncoming traffic and again, I'll just mention, because we're reflashing here, we're using the scanner, we don't need to concentrate on looking at the laptop either.
+10:44	We can simply concentrate 100% of our energy on making sure we're controlling the car, keeping that under control, on the right place on the road or the racetrack and then after our test is complete, we can then look at our data and see exactly what we had.
+10:59	But how you go about this test will depend on the conditions you are able to test under.
+11:04	In the perfect world, what we'd like to do is a run in perhaps third gear, and maybe even right out to the top of third gear, shifting into fourth and then some of fourth gear.
+11:16	A reason that's important, is first of all, we're applying a high level of load in those higher gears, so this is going to make sure that we're testing under maximum load.
+11:27	The other thing is, these are the conditions where the engine is going to be operating under sustained high load, for a long period of time, so this is where we really want to make sure that our engine isn't suffering from knock, and our engine is running the correct air-fuel ratio.
+11:43	So that's why we want to test under representative conditions, make sure that our air-fuel ratio and our ignition timing is correct under the worst possible scenario.
+11:56	Alright, so we're coming up to a long straight now and what I'm going to do for this particular test, is we're going to test in third gear, and we'll try and get all the way out to the top of third gear.
+12:08	And I want to start from low RPM as well, so I've got the full rev range to look at.
+12:28	Okay, so that's our test run done now, and I'm simply going to go back into the pits and have a look at our data again in relative safety.
+12:37	Again, we don't need to stop on the racetrack or look at our laptop.
+12:41	Stop on the side of the road, or go back into the pits where we can view our data and make decisions without any stress, and relative peace and quiet as well.
+12:52	Alright, so we've completed our run now, we're looking at the data from that particular acceleration test and you can see here, looking at our engine RPM first, that we've started that run from about 2,300 RPM, that's where we've, sort of, gone to full throttle and you can see that I've completed that run.
+13:12	I've gone through to about 6,100 RPM.
+13:15	So what we're really trying to do here is test over the full, or as much of the RPM range as we're capable of doing.
+13:23	So let's have a look at what we've got here.
+13:25	Just like when we were on the dyno, the first thing we're going to take notice of, is our ignition timing, and specifically here, we're looking for any knock retard Now what we can actually see, we have had a very, very small amount of knock retard occur here.
+13:39	We were at 4,900 RPM, and you can see the engine control module's pulled out just under a degree of timing there in response to a knock event.
+13:49	So, how we're going to deal with that is exactly the same as when we were on the dyno, we can find out exactly where we were operating in our spark advance tables there.
+14:00	4,900 RPM, and you can see, we were running at 0.85 grammes per cylinder, so we'd simply go and remove a degree of timing there, from that particular cell, and perhaps the cell before that, to eliminate that knock retard.
+14:17	Now, of course, just as I described on the dyno, we want to make sure that we're not chasing one individual phantom knock event.
+14:26	It is quite possible to have an occasional knock event occur.
+14:29	What we're worried about more, is repetitive and consistent knock that's repeatable in the same areas of our MAP.
+14:38	If we're getting that, we definitely have to deal with it by retarding the ignition timing.
+14:43	It isn't uncommon however, to see the occasional, random knock event and at the end of the day, that's what our knock control system is there for.
+14:53	So, it's unlikely that you're going to see a log file that never ever shows any hint of knock and one occasional knock event is usually nothing to get too concerned about, so it's important to remember how to read and analyse that particular data.
+15:11	Now let's have a look at what we're really interested in here is our air-fuel ratio and you can see again, just like we saw on the dyno, for the main part of that run there, we see a very small rich dip as we first tip into the throttle and start accelerating, but particularly through the higher rev range there, we are right on our target.
+15:33	We are at least within, around about 1% of our lambda target.
+15:39	So, again, this comes down to, if the car has been tuned correctly on the dyno, if our MAF calibrations correct, our Speed Density tables are correct.
+15:48	Then this is the sort of result we'd expect to see.
+15:51	Now, if we do need to make any changes to either our air-fuel ratio or our knock control, we're going to perform these here on the racetrack, exactly the same way as we would have corrected those errors when we were on the dyno, so we can just review that module and make those same changes, until we're seeing consistent air-fuel ratio, hitting our target and we're not seeing any knock under wide open throttle.
+16:16	Now there's one more area of the engine's operation we're going to look at and that is the transient response.
+16:21	And what we're going to look at here, we're going to go for another drive, we're going to be a little bit more aggressive on the throttle now.
+16:27	And particularly, under these conditions, large throttle changes, changing gear.
+16:32	This sort of behaviour, what we're trying to do here is see if the engine is prone to any knock under these conditions, and if we've got anything happening like that, we're going to use our histograms to find out where that was occurring and we can then correct that in our spark advance tables.
+16:52	So let's start our scanner going now, we'll go for another drive and this time I'm going to drive our manual in sport mode.
+17:00	So we're going to essentially be using the gearbox like a manual.
+17:05	Again, I always want to make sure that my scanning, my logged data, is under normal operating conditions, so we still want to allow our engine to get to equilibrium operating conditions, in terms of coolant temperature and intake air temperature, before we start trying to provoke anything in our scanner, so before we start trying to get any knock to occur.
+17:31	So I'm just going to drive around and we've got our engine coolant temperature now sitting at about 98 degrees and our air temperature's dropped down to 29.
+17:42	So we'll just wait until we get onto our next straight piece of track and we'll start seeing if the transient response is as we'd expect.
+17:55	So what I'm looking at here, is sharp throttle applications, in and out of the throttle.
+18:00	I'm also looking at the same time, to test and make sure that the engine is crisply responding to our throttle input.
+18:09	We don't want any lag, or any bogging on those sharp throttle changes like that.
+18:16	So we can simply drive around and create a full log file like this and then we can again check the data, have a look over our data when we're in the pits, in relative peace and quiet.
+18:27	So I'll continue and gather some more data.
+18:30	What I'm looking for, is two main areas here.
+18:33	We're looking for the response of the engine, on a sharp throttle application from relatively low RPM.
+18:39	So this would be representative of, the driver slamming the throttle, open from low RPM, trying to accelerate quickly, so that's this sort of situation where I'm sitting at about 2,200 RPM now.
+18:53	We'll go straight to wide open throttle and then the other area I'm normally interested in as well, is the same sort of response from higher RPM, so typically around four, maybe four and a half thousand RPM and this is indicative of two styles of driving.
+19:09	One would be a throttle lift and reapplication at high RPM and this is how the engine may be driven when it's being driven hard and also the result of a gear change from near the engine rev limiter.
+19:24	This is where the engine would pick up from again, in the next gear, so let's see what the engine response is like in this area.
+19:40	And of course, the other thing we can test is the response to the gear shift under full throttle.
+19:52	Alright, that's a quick glimpse at some data, so let's head back to the pits and have a look over that now.
+19:59	Alright, so we've got our logged data, and of course we can move through our logged file and have a look at the data.
+20:07	This isn't a very easy way of viewing it, unless we're looking for something specific.
+20:14	Particularly here, we're looking at two things.
+20:17	We're looking at the way the engine response to throttle input, and this isn't so much, a case of looking at our data, as it is a case of, feeling the engine response, so did it respond crisply, with no bogging and that's more something you can feel from the driver's seat, so that's one aspect that we're looking at and remember not everything that we're trying to do as tuners, is based solely on data.
+20:41	A lot of it can be based on the feel for the car as well.
+20:44	Now we're going to have a look at our spark retard histogram and really, this is essentially what we want to see.
+20:52	We want to see a retard histogram here, filled with zeros so this means that we're not getting any significant knock retard.
+21:01	If we are getting knock retard occurring, the spark retard histogram is going to help us figure out exactly whereabouts in our table, in our spark advance table, this is occurring and we can be much more accurate on removing timing from these areas.
+21:18	So this is a great result, what we've seen here.
+21:20	First of all, remember we tested our short term fuel trims, or our fuel trims in general, to make sure that those were sitting close to our targets of zero.
+21:29	We went for a drive, we looked at those in our cruise areas as well as our idle areas and we made up a histogram there.
+21:36	We looked into our histogram to see what those fuel trims were doing in those areas.
+21:41	Remember there, we're aiming for plus or minus five.
+21:44	The closer we can get to zero, the better.
+21:47	For outside of those ranges, then we've got some work to do, to either our Mass Air Flow calibration, our Speed Density tables or both.
+21:55	The next thing we looked at, was our fuel and ignition under a wide open throttle ramp run.
+22:01	So we were trying to replicate what we did on the dyno and we could see that the results we had there were pretty well, exactly the same as what we had on the dyno.
+22:10	We did have that small amount of knock retard and I've discussed that.
+22:13	We could test again, to see if that was consistent.
+22:17	If it was, we'd simply adjust our spark advance table to remove that.
+22:22	And lastly, we've just gone and driven the car a little bit more aggressively, we've been feeling for the transient response, making sure that it's responding well to our sharp throttle inputs and we're also been looking to make sure that we don't have any knock occurring on either a gear shift or on a sharp throttle input.
+22:43	Now, I will mention, that with the auto equipped cars, particularly, the transmission control module and the engine control module, we will see the ignition advance being pulled quite aggressively on gear shifts, so that, of course, is going to help with eliminating any chance of the engine knocking on a gear shift.
+23:04	It isn't uncommon when optimising the transmission control module tuning, to eliminate, or at least reduce the spark retard, reduce a lot of that torque reduction on the gear shift, to make the shift crisper and improve the performance, and that can result in the engine being more prone to knocking under those circumstances, so understand that what you can expect to see and specifically what you'll be looking to adjust, is going to depend a little bit on the changes made to your particular vehicle.
+23:35	Okay, so, at this point, we've completed our tune.
+23:37	We've got a car that's responding perfectly.
+23:40	It's offering more power than stock.
+23:43	We've got good control over our air-fuel ratio.
+23:46	That's going to mean that we are going to get good fuel economy and we've also got an engine that isn't suffering from knock, so we're going to have good reliability, and we've seen how easy it is, over this six step process, to achieve this result.
+24:02	I hope this worked example, has helped reinforce and highlight the techniques taught in the main body of the course, and I'd urge you to watch the other worked examples in our library to further expand your knowledge on reflashing.

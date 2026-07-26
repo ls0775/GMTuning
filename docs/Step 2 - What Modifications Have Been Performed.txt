@@ -1,0 +1,20 @@
+00:00	- The next step in our tuning process is to investigate what modifications have been made to the engine we're about to tune.
+00:07	This is a really critical step 'cause it's going to help form the steps that we need to go through when we're configuring our ROM file.
+00:15	And it's even going to define the order we're going to go through the tuning process in to some degree.
+00:22	So, regardless how insignificant the modifications may seem, we need to know exactly what's been done to the vehicle.
+00:31	Now, in some cases, this may be tricky.
+00:33	We have, perhaps, the car's been modified for several years and perhaps it's moved through several different owners.
+00:39	It can often be hard to get to the bottom of exactly what has been done.
+00:45	However, in our case it's relatively simple.
+00:47	We have taken a 100% stock standard 2013 HSV and the only modification that's been made to it is the fitment of an X-Air over the radiator.
+00:59	Cold air intake, or OTR, as they're often referred to.
+01:04	Particularly in the LS tuning market, this is a very common modification and it is a great way of releasing quite a lot of extra power for a relatively minor outlay.
+01:15	However, this modification does mean that we've got some work to do in the calibration.
+01:20	And what it's going to do is it's going to effect the scaling of our MAF sensor.
+01:25	And we're going to need to account for that as well as adjusting the virtual volume metric efficiency, or virtual VE system, inside the GM ECU.
+01:36	We're going to talk about exactly how those systems work and how they interrelate in the next module.
+01:42	However, for now, it's enough to know that we will need to do that.
+01:46	At the same time though, while the new over the radiator intake is going to effect our MAF scaling, it's going to effect the air flow through the engine and we're going to be expecting some more power because of that.
+01:59	The modifications also are relatively minor and so we should be able to start the engine and get it running without needing to make any dramatic changes to our tuning.
+02:11	So this is important because we're going to need to have the engine running in order to go through our next process.
+02:17	So now we know what modifications have been performed, we can move on to our next step and start configuring our base ROM file before beginning our tuning.

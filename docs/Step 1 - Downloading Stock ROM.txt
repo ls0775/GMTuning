@@ -1,0 +1,36 @@
+00:00	- Our first step is always to download the stock ROM file out of the car.
+00:04	And this means that we can save this and make sure that we always have the stock ROM file to revert to later on.
+00:11	Now this can be useful if for any reason we do want to revert to the stock ROM file.
+00:17	But even if we're not reverting back to factory, we can find that it's essential to have that stock ROM so we can use the compare function in the HP tuners software, to quickly copy stock maps back into our new tuned file.
+00:31	Let's go through the process now.
+00:33	I've got the car's ignition on.
+00:35	We've got our VCM editor software opened up.
+00:38	And the HP tuners dongle is connected to our diagnostics port, as well as the laptop.
+00:44	All we need to do is click on the read vehicle icon, which you can see here on our toolbar.
+00:50	If I click that, it brings up our vehicle reader box.
+00:53	In here, all I want to do is click on the read icon.
+00:57	Now this is going to go through an entire read out of both the E38 engine control module as well as our transmission control module too.
+01:07	This takes a few minutes.
+01:08	So we need to be a little bit patient while this process takes place.
+01:12	Once the reads complete, we can shut off the ignition and now we can save our base ROM file.
+01:17	How you choose to name your ROM file is up to you, however I would encourage you to come up with a standardised way of doing this so that it makes it easy for you to find the file you are looking for, later on.
+01:29	This can become much more important when you may have several hundred of files to trawl through.
+01:34	The way I like to name my files is to use the registration number for the particular vehicle followed by the type of vehicle I'm tuning.
+01:42	So let's start with that.
+01:44	And I'm going to enter the registration and we're tuning a VFR8 Clubsport.
+01:50	Once I've got this information, I also like to add something that tells me the state of this particular tune.
+01:57	So in this case we can use the identifier in the stock or base.
+02:02	Now this will let me know that this is an unmodified ROM file that I can revert to at later point.
+02:09	We're going to click save.
+02:10	I've already previously licenced this particular vehicle, so we didn't get the licence options come up.
+02:17	If you are dealing with a vehicle that you haven't previously licenced and you do want to make changes and flash those into the ECU, you will need to apply some credits and licence the file.
+02:27	Okay, so now that we're into our VCM editor software, what I'm going to do is save this file one more time.
+02:35	This time I'm going to use the save as function and I'm just going to change the identifier at the end of my filename here.
+02:42	I'm going to change it from base to XAirOTR.
+02:48	Which is, in the X-Air over the radiator code year intake that's fitted to the vehicle.
+02:53	Now what this does is straight away means that I've two files saved.
+02:57	I've got my base, or stock, ROM file and now I've saved it with a different name.
+03:02	Now that I've saved it with a different name, anytime I press the save key/save button, that's going to save to our new filename and it just helps prevent overwriting that stock ROM.
+03:13	It's a really important step because, so often you will want to revert to that stock ROM file and if you've overwritten it with a modified ROM, that can be a problem.
+03:23	Okay, so we've got our base ROM we've got our new ROM that we can start working with.
+03:28	Let's move on to our next step.

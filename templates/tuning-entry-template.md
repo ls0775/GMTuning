@@ -4,6 +4,8 @@
 
 - Date:
 - Vehicle:
+- Step 2 mod set version/reference:
+- Airflow strategy used (MAF+VVE / VVE-SD / VE 1 Bar SD):
 - PCM/OS:
 - Tune file (input):
 - Tune file (output):

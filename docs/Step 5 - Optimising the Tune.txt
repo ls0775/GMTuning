@@ -1,0 +1,240 @@
+00:00	- We've finally reached the point where we can actually start optimising our tune under wide open throttle open loop operation doing some ramp runs on our dyno.
+00:11	If we've done our job correctly in the last step and our mass airflow sensor and our virtual VE tables are accurately configured and tuned, we should find that in this step at least the fuel delivery side of our tune is incredibly simple.
+00:28	If we've done our job properly we should simply be able to request our desired air-fuel ratio targets and the PCM should be able to achieve those very accurately for us.
+00:40	Now a few words of caution here, when we're running any car on the dyno we do want to be watching out for knock or detonation.
+00:49	Now while I'm presenting this course I'm obviously not using audio knock detection equipment.
+00:55	Under normal circumstances when I am tuning, I'm always going to be using audio knock detection equipment so I can audibly listen to the engine and find out if knock is occurring.
+01:06	Now in our GM ECU, we do have what proves to normally be a very accurate knock detection, knock control strategy and we can watch that on the scanner, see when the ECU was retarding timing and response to detonation occurring.
+01:25	Even in these situations where we've got an ECU that can do this, I always like to validate that the ECU is correctly and accurately picking up knock by validating that with my audio knock detection equipment.
+01:39	So when we're running the car under wide open throttle, we want to be watching our scanner for knock, listening for knock, and we also want to be watching our air-fuel ratio.
+01:48	Making sure that it's not either excessively rich or leaner than we would like.
+01:54	In those situations it's always easiest and safest simply to abort the run, back off the throttle, come back to idle and make some tuning changes to correct whatever you didn't like, rather than persevering and trying to stay in the throttle all the way to the end of the run.
+02:10	Okay, so now let's go back into our VCM editor and let's have a look at our power enrichment equivalence ratio table and you can see that I've actually made some changes in this table since ...
+02:24	You'll remember we had configured it to and across the board target of 12.5 to 1, just for the purposes of scaling our mass airflow sensor as well as our virtual VE tables.
+02:37	That's generally not going to be where I actually want to run the engine.
+02:41	You can see that I've set the low RPM area up to 2,500 RPM to an equivalence ratio of 1.12.
+02:50	Let's just bring up our calculator and find out what that means.
+02:54	So if we enter a value of 1.12 and then we use the inverse function, we see that there is the equivalent of 0.89 lamda.
+03:04	Now if i multiply that value by 14.67, our stoichiometric AFR.
+03:11	We see that's an air-fuel ratio target of 13.09, 13.1 let's call it.
+03:17	So we've got that at low RPM here.
+03:20	See though, at higher RPM you can see that I've increased those numbers and from 5,250 RPM and above we've got an equivalence ratio target ratio of 1.163.
+03:34	Let's see what that is in terms of lambda.
+03:37	So, into 1.163, the inverse of that shows us we have a target of 0.859.
+03:42	Let's call that 0.86 and again if we multiply that by our stoich value, we say we have a target of 12.6 to 1.
+03:51	So richening the air-fuel ratio target at higher RPM.
+03:55	What I've done, just for simplicity, is between our bounds here at 2,500 RPM and 5,250 RPM, I've simply highlighted the cells in between and I've used our horizontal interpolate function just simply to go as a straight line interpolation and if we look at this as a 2D graph, you can see that's exactly what we've got here.
+04:21	These might not be the exact air-fuel ratios that you want to run on your particular engine.
+04:28	This course isn't designed to show you how to find the exact air-fuel ratio to suit your particular engine, rather it's about how to modify the maps in the PCM in order to achieve whatever your desired air-fuel ratio is.
+04:44	So as I've said, if we've done our job correctly as far as our MAF and virtual V8 tuning goes, then we should straight away be very, very close to these targets.
+04:55	This leaves us with the next step, which is tuning our ignition tables.
+05:01	Particularly if you're tuning an ECU, an engine that is unknown to you.
+05:06	Particularly if it's modified it can be a smart move to begin by removing a little bit of timing, perhaps a couple of degrees of timing out of the wide open throttle operating area.
+05:19	In this particular case, our engine is 100% stock standard other than our OTR intake, so we can be relatively safe with the sort of ignition timing values that are in the spark advance table.
+05:33	So let's begin by performing a wide open throttle ramp run and just see exactly where we are.
+05:40	We'll get our engine into fourth gear and we'll get ready to run.
+05:45	When you're just starting to learn how to tune via the method of reflashing, it's aways useful if we can separate out our tasks into two parts.
+05:55	And initially what I'd like to do as long as our engine isn't suffering from any knock during a wide open throttle ramp run, I'd concentrate first on tuning and optimising our air-fuel ratio, getting our fuel delivery where we want it.
+06:09	Then once we've got that dialled in, we can move on and adjust our ignition timing.
+06:13	Once you're move confident, more familiar with the software and the tuning process, we'll tend to make changes to both our fuel delivery and our ignition timing simultaneously.
+06:24	All right, so while I've been talking you can see we're running here on the dyno, I'm in fourth gear at 1,200 RPM.
+06:29	First of all you can see that our short-term fuel trims are still sitting very close to our zero point, so we know that everything is operating nicely there.
+06:39	Another point that's worth mentioning is our intake air temperature and our engine coolant temperature.
+06:45	When we're trying to get consisttency with runs on the dyno it's always beneficial, if we can run the engine from very similar operating temperatures.
+06:56	We want to make sure that we're always starting our runs with relatively similar temperatures.
+07:01	All right let's start our run and we'll see how our fueling looks under wide open throttle.
+07:21	All right let's stop our scanner there and we'll have a look at our results.
+07:26	So first of all on our dyno, you can see that that particular run we've got 247.3 kilowatts or 331 horsepower at the rear wheels.
+07:35	You can see we've also got our red air-fuel ratio line and straight away, even at a glance you can say that we are starting our run at about 0.90 and at the end of the run you can see we're sitting at about 0.85 lamda, so we know that we're really close to those targets that we entered.
+07:54	Let's have a look at our scanner and first of all what I'm going to do is look at our air-fuel ratio and you can see that during that run our commanded, our measured air-fuel ratio, our measured lambda is essentially sitting right on top of our commanded lambda line if I take a few plots through here.
+08:13	You can see, we do have a couple areas where we do have small inconsistencies, but generally we were then right around 1% of our air-fuel ratio target right through that run.
+08:27	Now how fussy you want to be here is completely up to you.
+08:30	If you do see any errors that you're unhappy with, we'd go back and adjust our scaling to suit to get our air-fuel ratio onto target.
+08:39	Of course, as I said, if we've done our job correctly this is the sort of result you should expect to see.
+08:45	When we're talking about an air-fuel ratio target, it's also important to understand we're not talking about a stagnant, stable number.
+08:53	Our air-fuel ratio is always going to be moving around, so I'm say targeting a lambda of 0.90 typically I'm going to be happy if my measured lambda falls within the region of about 0.89 to perhaps 0.90, 0.91.
+09:12	I've always got a range over which I'm comfortable with my air-fuel ratio sitting in and simply if we do several back-to-back runs you're going to always see a very slight fluctuation in the air-fuel ratio plot from one run to the next.
+09:30	So, again just like optimising our MAF and our virtual VE tables, you can't drive yourself absolutely crazy and waste a lot of time needlessly trying to get these two lines to overlay directly on the top of each other.
+09:45	What we've got here for the most part, this is about what we would be looking for, this is about what we could expect.
+09:52	Where our lambda measured is within around 1% of our commanded.
+09:59	Okay, so now that we know that our air-fuel ratio is where we want it, where we need it to be, we can look at our ignition timing.
+10:06	The first thing we want to be looking at during this run provided again we haven't audibly heard any knock occur, we want to see if we've had any activity from our knock retard.
+10:16	Our knock retard is going to indicate if the ECU was pulling timing in response to any knock occurring.
+10:27	We can see that we don't have any significant activity there on our knock retard, which is great place to start.
+10:35	Okay, so the next step is we can begin adding some timing in and we can start optimising our timing moving ourselves either towards MBT timing or alternatively we'll find the knock threshold if the engine does begin to suffer from knock.
+10:54	In that case we can find the knock threshold and we'll have to remove timing in those areas to prevent knock occurring.
+11:01	Let's bring our histrograms back into play here and what we want to know is whereabouts we were operating in our spark advance maps during that wide open throttle run.
+11:15	So you can see this particular histogram here I've got set up with cylinder air mass on the vertical access and that's simply going to show during our ramp run you can see we started here at about 1,200, 1,400 hundred RPM.
+11:29	We're sitting between 0.60 and 0.64 grammes per cylinder.
+11:34	You can see there as we move up in the rev range and the airflow increases, you can see we move up into this region right about 4,500 RPM we are running at around about 0.80 to 0.84 grammes per cylinder.
+11:50	And then of course we drop off a little bit at higher RPM.
+11:54	So this is important because now we know where abouts the ECU was operating in the spark table, so we can decide where to make changes in that table.
+12:05	Now let's just have a quick look here at a couple of points.
+12:09	This particular histogram shows the ignition advance that was being delivered to the engine.
+12:17	So this is the advance you would see if you fitted a timing light to the engine.
+12:21	So at 4,200 RPM you can see we had 20 degrees and you can see we're operating between 0.76 and 0.80 grammes per cylinder.
+12:34	So what we're going to do is jump into our editor.
+12:37	Let's go to our spark table and we should be operating in our high octane spark table.
+12:43	Particularly we don't have any knock to speak of and we were remember sitting at 0.76 to 0.80 grammes per cylinder.
+12:55	So, you can see in that particular area here we have 21 and 20 degrees, so that matches up quite nicely as we'd expect with the ignition advance we're seeing in our scanner.
+13:10	So we know that that's exactly where we are operating.
+13:12	We know we've got the correct timing.
+13:15	One aspect to consider though if you are seeing a discrepancy between the timing your scanner is showing and the timing you can see in your table here, there are some modifiers that work on top of our base spark advance table.
+13:32	So for example if we look at our spark correction, settings here, one that we may want to consider is our IAT spark compensation.
+13:45	So this is a compensation that's made to our ignition timing based on our intake air temperature.
+13:53	And you can see that this is actually a relatively conservative table.
+13:58	From 30 degrees and above you can see that particularly in the area we're operating in 0.76 to 0.80 at high RPM there, if we get to 30 degrees the PCM is going to be removing three degrees of timing and then at 35 degrees it's going to be removing five degrees of timing.
+14:20	So this is just a good consideration to keep in the back of your mind that this table will be acting on top of your main spark advance.
+14:28	It's not uncommon for some tuners to choose to reduce the aggressiveness of this IAT spark retard map by reducing by reducing the correction until we get up to higher intake air temperatures, perhaps 40 or 45 degrees centigrade.
+14:45	It's really up to you how you want to deal with this, but understand that that table is there and if we do see air temperatures exceeding 30 degrees centigrade, understand that we will be retarding the timing.
+14:57	I'm going to leave that as it is for the moment and what we're going to do is open again our high octane spark advance map.
+15:04	Let's go to our histogram.
+15:07	What we're looking for is our wide open throttle operating areas.
+15:10	So basically from the start of our run we were sitting at 0.60 grammes per revolution and above.
+15:18	So what I'm going to do simply for our first change is make an across the board change.
+15:24	I'm going to highlight everything from 0.60 grammes per revolution and 1,200 RPM and above and I'm going to simply add two degrees.
+15:37	And I can do that a couple of ways.
+15:38	In this case, I'm simply going to press the plus key twice.
+15:42	Now, while I'm making a block change there, what I'm trying to do is just ascertain whether the engine is going to respond to more ignition advance throughout that wide open throttle operating range.
+15:56	When we're making changes to our spark advance table, it is worth considering the shape, the overall shape of our spark advance table in trying to maintain a relatively smooth shape to this table.
+16:10	If we're starting to see very large changes in ignition timing, perhaps 10 or more degrees between adjoining cells, that can result in erratic operation of our engine, so we do want to be cautious with how we make these changes and try and maintain a smooth shape at all times.
+16:28	Okay, we're going to close that down.
+16:29	I'm going to shut down our engine and we'll flash that change into the computer and we'll try again.
+16:38	All right we've flashed those changes into the ECU.
+16:42	We're ready to make another run.
+16:43	Now this time on the dyno, we're going to be overlaying this run directly with the last run that we just made.
+16:50	So the only change here, remember, is we have added two degrees of ignition advance right through the entire rev range, so what we're hoping to see if the engine was retarded and we have now moved towards MBT timing, we're hoping to see an improvement in power and torque throughout the rev range.
+17:10	So let's run the engine and we'll see how it responds.
+17:36	Okay, so let's have a look at the results we've got there.
+17:39	Now we have picked up a couple of kilowatts.
+17:42	We've picked up to 249 kilowatts at the wheels.
+17:46	However we can't see that through most of this rev, most of this run, current plot on the dyno there our green line has actually overlaid directly with our last run.
+17:58	So what that means is that the engine hasn't necessarily responded or picked up any power from that additional timing.
+18:06	If we see a result like this, if we've added timing and we haven't seen a positive result, in that case the engine didn't need the timing.
+18:15	We were already at MBT or perhaps even beyond MBT timing and we would simply remove that timing.
+18:21	In fact, if we've seen a result like this from our first run, I'd go one step further and try retarding the timing further.
+18:28	So take our two degrees out and then perhaps another one to two degrees and see if perhaps we were already over advanced at the beginning of our tuning exercise.
+18:39	You can see how we have from around 4,200 RPM and above, we're starting to see a very small improvement from that additional timing that's resulted in our additional two kilowatts of power.
+18:54	Now it's also worth noting here that when we're a long way away from MBT initially, so in our timing is very retarded we're going to see a relatively large increase in power for each degree of timing we add.
+19:09	As we move closer to MBT we find that we start getting towards our torque starts to plateau and we start seeing smaller improvements in torque for each degree of timing that we add.
+19:23	So in this instance we haven't really seen much real improvement there.
+19:28	That suggests we were probably pretty close to the mark.
+19:31	Let's have a look at our scanner now.
+19:33	And we will start by having a quick look at our air-fuel ratio and again as we would expect the air-fuel ratio is still sitting very closer to our commanded lambda target.
+19:45	And we don't expect to see our, we don't expect to see our measured air-fuel ratio being effected as we're adjusting our timing here either.
+19:55	So once this is tuned and we have consistency with our air-fuel ratio, we shouldn't need to go and readdress that.
+20:03	The key point we are going to be looking at here though is our knock retard and you can see now due to the additional timing we do actually have some activity from our knock control system.
+20:15	Particularly this point here and this demonstrates, you'll remember when we were going though our base file configuration, I made an adjustment to how quickly the ECU could reintroduce ignition timing after some knock retard.
+20:31	This little red line shows that in action, so what we've got here is at 4,900 RPM, some knock has occurred and you can see that the immediate response of the ECU is to retard the timing by three degrees here.
+20:47	And once the knock event has been removed, so once knock is removed you can see that that timing actually gets reintroduced relatively slowly.
+20:57	So we've still got a little bit of retard, 0.1 degrees all the way up at 5,800.
+21:06	So it's almost taken a full thousand RPM of our rev range to remove that timing.
+21:11	Remember I have sped this process up compared to the factory decay rate.
+21:17	So this is an aspect that again, it comes down to how you want to address this, how you want to set it up.
+21:22	It's obviously valuable to have some decay in there to remove the knock event and then prevent the knock coming straight back, however, if we have that decay rate very, very slow, it's going to effect the performance of the engine beyond when that knock event has been prevented.
+21:44	In this instance what we've seen is little real response to our additional ignition timing.
+21:53	We've also seen some relatively small, minor knock events being demonstrated here.
+22:00	So that the ECU is pulling timing right through that run.
+22:05	In the higher rev range though, from let's say about 5,700 RPM and above, we haven't seen any knock occurring and obviously we also have picked up a very small amount of power.
+22:20	For the sake of this demonstration what we're going to do is make two more changes to our ignition table.
+22:25	I'm going to go back in and remove the timing that I added and I'm going to remove that through to about 5,500 RPMs.
+22:34	So some place beyond where this knock event has occurred.
+22:38	Now remember we do still have some retard in there at this point at 5,400.
+22:43	You can see we still have one and a half degrees of knock retard.
+22:46	So what I'm going to do is remove the timing up to about 5,400 RPM or a little bit earlier.
+22:53	Then in higher RPM range, above about 5,500 RPM I'm going to add a little bit more ignition advance and just see if the engine responds to that.
+23:03	Now that's our charts, our charts where we can see what's happening during the run.
+23:08	Let's have a quick look at our histograms though.
+23:11	Obviously we have our spark advance histogram which we've already looked at.
+23:16	Another really useful histogram for deciding whereabouts the engine has been suffering from knock is our spark retard histogram.
+23:24	You can see that the spark retard that we noticed in our chart logger has also been demonstrated here on our histogram.
+23:33	So particularly when we're going to be looking at our road, the road tuning part of the process in our next step, this particular histogram is going to be a great way of finding out any areas where the engine is actually prone to knock and allowing us to accurately remove timing from those areas.
+23:55	One thing we do need to be a little bit aware of though is the knock retard, obviously we already know that it doesn't instantly get removed.
+24:03	So we need to be a little bit cautious in how we read the numbers in this particular histogram.
+24:10	You can see here we have a knock retard value of 2 and 1, occuring at 5,200 RPM.
+24:17	Now we know that's where our knock actually did occur.
+24:21	You can see we still have a knock retard value of one degree out at 5,600 RPM and that's simply because of the decay aspect, the ignition hasn't been restored to its full value at 5,600 RPM.
+24:35	All right, so let's go back into our VCM editor.
+24:40	So remember we made our last change from 0.6 grammes per cylinder and above.
+24:48	What I'm going to do is highlight up to our 5,200 RPM column and remember that's where our knock occurred.
+24:57	What I'm going to do is I'm going to take that two degrees back out.
+25:02	So remember out engine didn't respond to that, it didn't show any improvement.
+25:06	Now above 5,600 RPM we have seen an improvement.
+25:11	So what I'm going to do here is highlight the entire load range above 0.60 grammes per cylinder and 6,000 RPM and for the sake of this demonstration let's add another two degrees and see where that leaves us.
+25:26	So we'll close that down and we will now flash that change into our ECU and run it again on the dyno.
+26:00	Okay, so we've got a bit of a mixed bag there.
+26:03	We've made a little bit more power, although only by about a kilowatt.
+26:07	We've cracked that 250 kilowatt at the wheel mark or 336 horsepower.
+26:13	You can see that, remember that we have removed some timing now, we've removed that two degrees that we added back in all the way from the start of our run at about 1,500 RPM right the way through to about 5,200.
+26:26	Now you can see that, as we expected, through the majority of this lower RPM range, we actually haven't seen any reduction in power this again indicates that we were previously over-advanced.
+26:41	We'd gone past MBT.
+26:43	Now from about 4,500 RPM and up you can see we've actually lost a little bit of power.
+26:53	Now of course, remember, on our previous run we did have that knock event occur around about 5,000 RPM.
+26:59	So we have removed timing there.
+27:01	It doesn't really matter, strictly speaking, if we saw an improvement of power or not if we have knock occurring.
+27:10	If we have knock occurring, we need to retard the timing to prevent that knock from happening.
+27:15	Long term that can be damaging to our engine.
+27:18	So unfortunately, while that can be frustrating, if we have got knock occurring, even if it is showing an improvement in power, we do need to retard the timing, take a hit in the power stakes and prevent that knock occurring.
+27:34	Now remember we did also increase the timing at high RPM and we can see this little blip right at the top of the run where we have picked up some power.
+27:45	So let's have a look now at our scanner.
+27:48	And this time we can see that we don't have any knock activity occurring in our scanner.
+27:54	Our scanner is nice and clean and we don't have any knock retard going on.
+27:59	So what this means is that at higher RPM we saw an improvement in power, we moved towards MBT.
+28:06	That might suggest that we can go a little bit further.
+28:09	I'm seeing around about 24 degrees of advance at RPM right now, which is probably in line with where I expect this particular combination to be.
+28:21	Now remember, we talked about the reduction in power that we've seen around about that sort of 5,000 RPM as a result of us removing that ignition advance.
+28:33	Now in this situation what I would do and I'm going to try this, we want to see if the knock retard that we noticed in our last run was a one-of event or whether this was going to consistently show up.
+28:48	And I just want to talk about how we can read the knock retard, how we can use the value of knock retard and the scanner and make sense of them.
+28:56	Now obviously in the perfect world we'd like to see absolutely no knock present at all.
+29:02	That's the ideal, that's what we're trying to work towards because any level of knock can be damaging.
+29:08	This however, isn't always entirely realistic and quite often we'll see if we go for a drive and we run the car hard through the rev range, we may notice occasionally then in our scanner we do see some knock occur.
+29:25	What I'm looking for is to eliminate any consistent and repeatable knock.
+29:31	So if I've got the occasional knock event occur, in a log file I'm not necessarily going to be too worried about that.
+29:40	If on the other hand, I'm consistently seeing knock occur at let's say 5,000 RPM and 0.8 grammes per cylinder air mass.
+29:51	In that case, if that's repeatable, we need to deal with that and we need to deal with that in our spark tables.
+29:56	Okay, so for the purposes of this demonstration we know that we lost some power around 5,000 RPM.
+30:02	We also know that we gained some at higher RPM.
+30:05	Let's go back into our editor and we're going to make a further change to our spark advance, just to see the results on the dyno.
+30:14	Let's open up our high octane table again.
+30:16	This time what I'm going to do is I'm going to highlight everywhere from 4,800 RPM and above.
+30:23	So this includes the area that we already know we had some knock occur on our previous run and I'm quite likely going to see that come back.
+30:33	I just want to perform one final test, just to see what exactly was going on.
+30:40	Now the other thing we can see is when I've made this change here, we now have a step in our ignition advance.
+30:48	Now I've made this change down to 0.6 grammes per cylinder and if we go to our scanner here.
+30:56	Let's pull over our histograms and we'll see exactly what air mass we were seeing at that higher RPM range.
+31:03	And you can see if we look at our spark advance, we're actually sitting from about 4,200 RPM and above, we're generally sitting at about 0.72 grammes per cylinder.
+31:17	So I've actually made a change in an area of lower air mass than what we're seeing.
+31:22	What we can do is simply smooth those changes out.
+31:26	I don't really want to see a hollow or a dip in our ignition timing here, so what I'm going to do is simply smooth this out, so we've got a nice consistent shape to our ignition table.
+31:42	What I've done is I've just reduced the timing here in our 0.6 and 0.64 gramme per cylinder zones.
+31:52	You know, I'll just highlight our 0.56 gramme per cylinder I'm going to add one degree into here, so this just makes sure that I'm maintaining a nice smooth shape to that table.
+32:02	All right, let's save that file and we'll flash it into our ECU and test the results.
+32:37	Okay, let's have a look at our results first of all in our dyno.
+32:40	You can see that essentially we're almost identical to the results of our last run.
+32:45	We're 149.7 kilowatts.
+32:48	Now we've made a little in some places and we've lost a little in other places.
+32:52	Now remember that we added in some timing back around that sort of 4,800 to 5,200 RPM zone.
+32:59	That's worked, you can see that we've put that power back up.
+33:03	We can also see though that we've lost a little bit right in that very top end compared to our last run and that's why we've actually made slightly less power on that particular run.
+33:13	Let's have a look at the scanner now and see if we can figure out why that's what we've seen.
+33:18	Okay, so what we can see now is straight away we do have some knock activity again on our scanner.
+33:24	This really was to be expected due to the fact that I've added more timing back in at higher RPM.
+33:32	Of interest though, you'll remember we've added that timing back in around 4,800 to 5,200 where we previously had knock.
+33:41	And you can see if we look at this same area now, this is in this area here, we now don't know have knock.
+33:48	This is what I was talking about with ensuring that we have a consistent, ensuring that we're seeing consistent knock retard occurring as opposed to a one-of event that's not repeatable.
+34:00	So in that case, I had retarded the timing as a result of a one-of even that may have been to do with the particular conditions on that run.
+34:11	However, we've put that timing back in on this run.
+34:13	We haven't seen that occurring.
+34:16	Now I also added timing and remember on our last run we'd seen a gain in power right at the top of our run around 6,000 RPM.
+34:24	I continued there and added timing further.
+34:27	I added another two degrees right the way through and we can see that now this is, we've gone too far, this is too much timing and we have some knock retard being pulled basically everywhere from about 5,800 RPM and above.
+34:42	So in order to deal with this, I'd go back through now, make one final change to our ignition table and remove some timing again from about 5,600 RPM and above.
+34:54	Perform another run and ensure that we have knock-free operation.
+34:59	Now while I've said that I'm going to tolerate an occasional knock event as long as it's not repeated.
+35:07	When we are on the dyno here tuning, particularly when we're doing our final runs, I always like to see a complete full run under wide open throttle where we have no knock being recorded at all.
+35:19	So no knock retard coming in.
+35:21	So this brings us to the end of the dyno session of our tuning.
+35:25	We've now got a completely tuned ignition table, we've got our air-fuel ratio tracking our commanded target very nicely.
+35:33	Our fuel trims are under control in cruise.
+35:36	So everything is working at GM intended, only know we've got our tune optimised for our after-market intake and we're making a little bit more power than factory.
+35:47	It's now time to move on to our next step, step six where we're going to be looking at how we can confirm and optimise the tune on the road, ensuring that out in the real world everything we saw here on the dyno matches up.

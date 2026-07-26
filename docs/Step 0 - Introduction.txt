@@ -1,0 +1,4 @@
+00:00	- In this worked example, we're going to be looking at tuning a 2013 HSV Clubsport R8 powered by a 6.2 litre GM LS3.
+00:11	We're going to be using the HP Tuners platform, and in this worked example, we're going to be looking at a slightly more advanced technique.
+00:18	We're going to see how we can adjust the tune to properly accommodate a cold air over the radiator intake.
+00:26	This is a relatively common modification on these particular vehicles, so we'll see the correct approach to cover this in our tuning.

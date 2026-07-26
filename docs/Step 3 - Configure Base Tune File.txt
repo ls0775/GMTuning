@@ -1,0 +1,180 @@
+00:00	In the last step, we discussed the fact that our OTR intake is likely to have some impact on our tune, and we're going to need to account for that once we get the engine up and running.
+00:11	However, right now, it's also impossible for us to predict exactly what changes we're going to need to make.
+00:18	Even so, there's still some basic configuration changes that I like to make when I'm setting up a rom file.
+00:25	Now, a lot of these changes will come down to your own personal preference.
+00:29	I'm going to discuss some of the ones I'm going to make and I'm going to discuss why I'm making them.
+00:35	What you choose to do will come down to your personal preference and it's worth just simply understanding why I'm making these changes.
+00:43	You can then make your own decisions as to whether you want to do the same.
+00:47	Let's start on our torque management tab and what I'm going to do is go through and maximise the torque value in each gear.
+00:57	Now, what this does, is it makes sure that we're not going to be having any torque limits playing any part, during our tuning.
+01:05	Now, the actual numbers in these tables will depend.
+01:09	The stock numbers in these tables will depend on exactly what vehicle you are tuning.
+01:16	Sometimes, we will find that, even in stock form, the torque management will be quite restrictive and actually close the electronic throttle body down to reduce our power.
+01:28	So, in that case, if we're in that situation, we can find that simply maximising out these torque management tables will actually be quite beneficial to us, and we'll pick up a lot of power simply through doing what is a really quick and easy task.
+01:44	I'm also going to max out our trans input value here in to 8,192 newton metres, that's the value that everything you can see is defaulting to.
+01:55	That's the largest value we can enter here.
+01:59	So, this is going to make sure that on the wide open throttle, we don't have any torque reduction occurring.
+02:06	Now, another aspect that I'll just talk about here is our brake torque management.
+02:10	And, you can see that we have a brake torque limit table, so this essentially limits the maximum amount of torque that will be applied, if we have our foot on the brake.
+02:22	This is okay in a stock vehicle, particularly if you want to get a good performance from a standing start and you want to load the vehicle up against the brakes.
+02:32	We're going to need to increase the numbers in this table, otherwise, it will simply limit the amount of torque that can be produced while the brake is active.
+02:43	Again, it's a simple case of understanding what the particular table means and how it's likely to affect our tuning and, hence, how we need to be able to deal with that.
+02:53	Okay, so now that we've dealt with our torque management, we're going to move to our spark tab.
+02:59	And there's a couple of changes that I want to make here.
+03:02	Now, the actual tuning changes we're going to be making will be down here, in our main spark advance tables.
+03:09	And, particularly, we should be working in our high octane table.
+03:13	At this point, I'm not going to be making any changes to our ignition advance, however.
+03:18	But, what I do want to do is make some small changes to the way the knock control is activated and used.
+03:26	So, if we click on our retard tab here, we can see, first of all, the first change I'm going to make is to our maximum knock retard value.
+03:35	So, this is the maximum amount of ignition retard that the computer will allow.
+03:41	And, you can see, we have a axis of manifold pressure on the vertical axis.
+03:47	And, we also have engine rpm on the horizontal axis.
+03:51	What we can see is that, basically, any time we're under moderate load from 1500 rpm and above, the ECU is allowing a maximum retard of 10 degrees.
+04:02	Now, that's quite excessive if we're actually doing our job properly in the first place and correctly tuning our ignition table.
+04:11	Remember that the stock rom file will be a set up to suit a wide range of fuels and it's quite likely that the engine may be knocking quite significantly and quite frequently, hence, it's its understandable that the factory engineers have allowed a wide range of knock control.
+04:28	So, what I'm going to do is simply highlight that entire table, and, in this case, I'm going to multiply it by 0.75, so I'm going to reduce the values by 25 percent, and you can see that, straight away, that's reduced our maximum retard to 8 degrees.
+04:45	Of course, you can choose to be more aggressive here and reduce that maximum retard even further than that.
+04:51	I'm going to close that table down now and the next thing we're going to discuss is our burst knock retard settings.
+04:59	Now, our burst knock retard is a slightly different aspect of the ECU's knock control strategy.
+05:07	And, I'd liken this to a preemptive measure that the ECU uses to retard the timing when it thinks that the operating circumstances may result in knock occurring.
+05:21	Quite often, we find that this occurs during a transient throttle change, when we're increasing our load significantly over a short period of time.
+05:30	Now, in stock form, this may be acceptable.
+05:33	However, again, with our tuned engine, particularly as we're getting more aggressive with modifications.
+05:39	If we're going to be going a long way with the modifications on the vehicle, we can find that the burst knock retard will become active when we don't need it and don't want it.
+05:49	So, what I'm going to do here is click on our base versus cylinder air delta tab.
+05:54	And, what I'm going to do is highlight that entire table.
+05:57	And, I'm going to set all of the values to zero.
+06:01	So, this eliminates or makes our burst knock retard ineffective.
+06:06	Now, don't be scared, this doesn't mean that the knock control, knock retard strategy has been eliminated, we still have normal knock control active in the ECU.
+06:18	It just eliminates that burst knock function.
+06:22	Okay, the next thing I'm going to do is we'll come over to our knock retard decay, here.
+06:29	And if I click on this, this defines how quickly any knock retard will be removed.
+06:36	So, what the PCM does, is when it detects detonation, it will retard the timing.
+06:41	After the timing has been retarted, it is gradually advanced back to the normal operating ignition advance.
+06:49	And, this table defines how quickly that will happen.
+06:53	The factory values for this knock decay are very slow and this means that it takes a long time for the ignition to be advanced back up to our normal operating range.
+07:05	What I'm going to do is simply start by highlighting that entire table, and I'm going to multiply that by two.
+07:13	Now, this is still going to result in quite a long delay between the ignition timing being retarted and it being advanced back up to our normal operating ignition advance.
+07:25	If you wish, you can always go further than this and end up with the ignition retard being removed much more quickly.
+07:33	I find this as a good compromise.
+07:35	It's going to reintroduce our normal ignition timing quicker, and it still provides some safety, in the event that knock does occur.
+07:44	All right, we're going to close that particular tab down now.
+07:47	And what we're going to do is move across to our fuel tab.
+07:51	And, there's a few changes we want to make here.
+07:55	We're going to start with our power enrichment tab.
+07:59	This is where we're going to be making changes to our target air fuel ratio and the wide open throttle, open loop operation.
+08:08	Now, let's discuss the parameters we've got available here.
+08:11	And, the first one we're going to look at is our power-enrichment or PE throttle, pedal position table.
+08:18	So, if we click on this, we'll see we have a two dimensional table with, again, we've got engine rpm on our X axis.
+08:27	So, this table defines the throttle opening above which the ECU will move in to open loop mode and start targeting our open loop air fuel ratios.
+08:39	The values in this table aren't strictly our throttle position or driver pedal position.
+08:45	These are our pedal position plus the current idle speed throttle opening.
+08:52	So, what we find is if we have a value of 60 percent in this table, which we can see here, up to about two and a half thousand rpm.
+09:01	What that will mean is that, once we exceed 60 percent throttle, plus the current idle speed throttle opening, which might be somewhere in the region of about 15 percent, then the ECU will transition in to open loop mode.
+09:17	So, we might not end up getting in to open loop mode commanding our open loop air fuel ratio until we've exceeded around about 70 to 80 percent throttle opening.
+09:28	Now, what we find is that we can improve the throttle response, particularly, at part throttle, if we reduce these numbers somewhat.
+09:36	Now, we do need to be a little bit careful.
+09:38	We want to make sure that when we are cruising, that the ECU is in closed loop mode.
+09:44	We don't want to be commanding open loop air fuel ratios while we're genuinely trying to cruise in the car.
+09:51	So, some data logging and testing to see what our actual throttle openings are likely to be, is valuable here.
+09:57	What I'm going to do for the purposes of this demonstration is we're going to highlight the entire table, out to two and a half thousand rpm, and we're going to set those values to 40.
+10:08	Then, from four and a half thousand rpm, and above, I'm going to set the values to five percent.
+10:15	And, then we're just going to use the horizontal interpolation feature, to smoothly interpolate between those two bounds.
+10:22	This is going to be close enough for our demonstration but as I've mentioned, you can always use data logging to help define exactly what throttle position you're going to want to transfer in to open loop.
+10:36	Now, that particular table will then reference, or the ECU will then reference our power enrichment table.
+10:43	So, these are our commanded air fuel ratio under wide open throttle.
+10:48	And, you can see that we have two here.
+10:50	We have a gas and alcohol EQ ratio table and, because we're not running a flex fuel system, we're simply working in our EQ ratio guest table.
+11:01	So, this table, if we open it up, again you can see that we have a two dimensional table versus engine rpm.
+11:08	Now, this time, the values in this particular table are equivalence ratio.
+11:14	And, for those tuners, not particularly familiar with this term, it can seem a little bit confusing.
+11:20	So, equivalence ratio is simply the inverse of lambda.
+11:26	So, if we understand lambda, this is going to make everything a little bit easier to understand.
+11:31	Let's have a look at a single value here and, if we take, for example, the equivalence ratio we have at 2,500 rpm, you can see that we have a value in there over 1.13.
+11:43	Let's bring up our calculator and we'll find out what the inverse of 1.13 is.
+11:49	And we can hit the inverse function.
+11:51	And, you can see that gives us a lambda value of 0.88, or 0.885, if we want to be very precise.
+12:00	So, that equivalence ratio of 1.13 is the same as a lambda target of 0.885.
+12:09	Now, if we want to go one step further and convert that in to air fuel ratio, if you're more familiar with working in units of air fuel ratio, we can simply multiply our lambda by our stoichiometric air fuel ratio, and that is going to give us our current commanded air fuel ratio.
+12:28	So, in this case, the stoichiometric air fuel ratio as programmed in to the pcm, is 14.67.
+12:38	We can find that if we click on the fuel general tab.
+12:41	You can see that we have our stoich air fuel ratio parameter.
+12:46	We click on that and we can see that, again, because this pcm can be used in a flex fuel scenario, we have fuel composition, or ethanol content, on this axis.
+12:57	However, we're just interested in our zero ethanol content point here, 14.678 air fuel ratio, that's our stoichiometric point.
+13:07	So, let's bring back up our calculator and we can now multiply by 14.67.
+13:16	And that's going to show us that, at that particular point, at two and half thousand rpm, our target air fuel ratio, commanded air fuel ratio is 12.98 to 1.
+13:29	So, that's how the equivalence ratio numbers work.
+13:34	Now, if you're not used to working in units of lambda, we can also directly move between equivalence ratio and commanded air fuel ratio.
+13:44	Let's bring up our calculator again and we'll see how we can do that.
+13:48	In this case, let's take the same point in our table, two and a half thousand rpm, where we had an equivalence ratio commanded of 1.13.
+13:59	So, in this case, what we want to do is we want to take our stoichiometric air fuel ratio, 14.67 and divide it by our equivalence ratio of 1.13, and if we press enter, you can see that we end up with the same result, a commanded AFR of 12.98.
+14:19	Now that we know what the equivalence ratio targets mean, let's enter some numbers in to this table.
+14:26	Now, normally what'd I'd be doing right now is entering my final, desired, air fuel ratio targets in to this table.
+14:33	However, I also know that I'm going to end up going through the process of rescaling our mass air flow sensor, as well as our speed density system, shortly.
+14:44	So, it's easier when we're doing this, if we can shoot for one single air fuel ratio, so we're not trying to chase a moving target.
+14:52	So, what I'm going to do is start by entering a single air fuel ratio target across the board, that I know is going to be a safe place for me to be operating, while I'm dialling in the rest of my tune.
+15:04	So, what I'm going to do, is I'm going to target an air fuel ratio of 12.5 to 1.
+15:10	Now, we can find out what 12.5 to 1 is, in terms of equivalence ratio, by dividing our stoichiometric AFR by our target, so, in this case, 14.67 divided by 12.5.
+15:23	And, you can see that gives us a value of 1.174.
+15:28	Equally, we could have also worked in units of lambda, and 12.5 to 1 is the same as 0.85 lambda.
+15:38	If we click the inverse function, you can see that that's exactly what we've got on our calculator now.
+15:45	However, we need to enter an equivalence ratio number, so I'm going to set the entire table to 1.174.
+15:54	And, this again, is going to give us a nice, straight, across the board, air fuel ratio target that we can use while we're dialling in the rest of our tune.
+16:03	The next parameter we're going to talk about here is our enrichment ramp in rate.
+16:07	Now, this defines how quickly our air fuel ratio, commanded air fuel ratio target, will move from the stoichiometric air fuel ratio target, in closed loop, to our power enrichment air fuel ratio target, in open loop.
+16:22	By default, you can see that it's set to a value of 0.1, which slows down that transition.
+16:28	And, those can hurt throttle response.
+16:30	So, what we're going to do, is we're going to highlight that value, and we're going to set it to a value of one.
+16:36	A value of one, here, will sharpen up and speed up that transition to our power enrichment air fuel ratio target.
+16:44	Values above one don't appear to have any effect in speeding this up further.
+16:50	Next aspect we're going to talk about now is our power enrichment delay, which, on the face of it, might seem a little bit misleading.
+16:57	By default, again, this value is set to 5,000 rpm.
+17:01	However, in cars, this particular parameter doesn't have any effect.
+17:06	It's not going to actually delay our power enrichment becoming active.
+17:10	This is an aspect that can be useful to change in GM trucks.
+17:16	However, just for the sake of completeness, we're going to set that value to zero, to ensure that we don't have any delay occurring.
+17:26	Now, we're going to move over to our cat over temp protection and lean cruise tab.
+17:31	And, we can see here, we have our cat over temp protection settings.
+17:35	Now, these are, what we want to do here, will depend on whether the vehicle is still fitted with catalytic converters.
+17:43	Essentially, this function here allows the ECU to dump in a lot more additional fuel, if it deems that the exhaust gas temperature has got to a stage where it may be damaging to our catalytic converters.
+17:57	And, you can see here, we have a max enrichment value of 1.35.
+18:01	So, it's able to add a lot more fuel to help cool and protect those catalytic converters.
+18:08	If we do have catalytic converters footed, it would be sensible to leave our cat over temp protection active.
+18:16	However, if we have removed the cats, we would want to disable this function.
+18:22	Now we're going to move through to our open and closed loop tab.
+18:27	The aspect that I'm going to change here, again, as one of these aspects that will become personal preference.
+18:33	When I'm setting up a tune for a GM vehicle, I always like to disable my long term fuel trims.
+18:41	And, the reason for this is that the long term fuel trims will remain active when we move in to open loop.
+18:48	Actually, with the GM vehicles, the application of our long term fuel trims and open loop will depend on what those trims are.
+18:58	So, it's not as bad as some models of ECU.
+19:02	The way this works is that, if the long term fuel trims are positive, these will be carried over in to our open loop operation.
+19:11	However, if the long term fuel trims are negative, then these will be ignored.
+19:16	These will not be transferred over.
+19:19	However, again, we're going to be optimising both our MAF scaling and our virtual VE.
+19:24	I'm going to be getting our tune very closely dialled in.
+19:28	So, I shouldn't be expecting to see large, long term, fuel trims any way.
+19:34	We're still retaining our short term fuel trims, which are an instantaneous response to any error.
+19:39	So, we've still got our short term fuel trims helping there, if for any particular reason, we do see a discrepancy between commanded and measured air fuel ratio.
+19:50	However, I want to be very sure that the air fuel ratios I shoot for and achieve, while I'm tuning here on the dyno, are what I see out on the road as well, and I don't want these long term fuel trims acting to affect that.
+20:04	So, to disable this, what we need to do is change our long term fuel trim enable parameters here.
+20:12	And what I'm go to do is, first of all, start with our minimum engine coolant temperature and I'm going to set that to the maximum value, which you see I just entered 300.
+20:22	That, straight away, reverts to the maximum value we can enter, which is 256.
+20:28	Likewise, I'm going to enter a value of minus 40, for our maximum engine coolant temperature.
+20:33	So, this simply makes sure that our long term fuel trims won't be active.
+20:39	Okay, let's move on.
+20:40	And, the next aspect we're going to consider is our diagnostic trouble codes or DTCs.
+20:45	So, I'm gonna close down our engine tab and, if we click on engine diagnostics, we can see we have a full list of all of the current DTCs.
+20:55	And, what we need to do here is going to depend on exactly what modifications have been made to the engine.
+21:02	You'll see we'll be revisiting these a little bit later in this worked example.
+21:06	I'm just going to show you one of the common options that we may need to make changes to, if we move down here.
+21:13	We can see that we have our catalyst system efficiency bank one and our catalyst system efficiency bank two.
+21:21	These are P0420 and 0430.
+21:26	So these are just two of the parameters that we would need to address and disable if we were removing the catalytic converters out of the system.
+21:34	Another parameter, other DTCs that we may also need to adjust here, would be, if we are removing the rear 02 sensor, which is common when we remove the catalytic converters.
+21:46	For right now, though, we're not going to be making any further changes to our DTC, so I can close that down.
+21:53	And that's been a brief overview of some of the main aspects we may want to adjust.
+21:59	Some of the main tables we may want to adjust when setting up or tune and HP tuners.
+22:04	This is by no means a complete list of every table that could or should be adjusted.
+22:10	However, this is going to set up our tune now for our demonstrations, so we can continue.
+22:16	Let's finish off by clicking the save button so we now have our new tune, which you can see still at the top, shown, with our X-Air OTR identifier, so that we know exactly what that tune is for.
+22:31	We can now move on to the next step of our process.
