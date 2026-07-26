@@ -35,3 +35,5 @@ Transcript notes should map to this sequence:
 ## Core Reference
 
 Use `docs/e38-l98-maf-vve-reflash-playbook.md` as the transcript-derived operating playbook for this project.
+
+For Scanner setup and clean-data filtering, use `docs/e38-vcm-scanner-pid-filter-kb.md`.
