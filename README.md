@@ -4,10 +4,11 @@ Practical knowledge base for tuning a 2007 Holden Commodore VE (Gen4 L98, E38 PC
 
 ## Structure
 
-- `docs/` - core references and procedures
+- `docs/` - core references, playbooks, and vehicle specifications
+- `docs/transcripts/` - HP Academy step-by-step course transcripts and raw notes
 - `logs/` - scanner logs and session artifacts
-- `vcm-presets/` - VCM Scanner channel layouts and charts
-- `templates/` - repeatable entry templates
+- `vcm-presets/` - VCM Scanner channel layouts, graphs, and XML presets
+- `templates/` - repeatable tuning session entry templates
 
 ## Operating Rules
 
