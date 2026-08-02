@@ -4,11 +4,9 @@ Practical knowledge base for tuning a 2007 Holden Commodore VE (Gen4 L98, E38 PC
 
 ## Structure
 
-- `docs/` - core references, playbooks, and vehicle specifications
+- `docs/` - core references, playbooks, templates, and vehicle specifications
 - `docs/transcripts/` - HP Academy step-by-step course transcripts and raw notes
-- `logs/` - scanner logs and session artifacts
-- `vcm-presets/` - VCM Scanner channel layouts, graphs, and XML presets
-- `templates/` - repeatable tuning session entry templates
+- `HP Tuners/` - standard HP Tuners directory layout (Logs and Tunes, VCM Scanner configs, layouts, graphs, maths)
 
 ## Operating Rules
 
@@ -30,8 +28,8 @@ Transcript notes should map to this sequence:
 ## First Steps
 
 1. Fill out `docs/vehicle-baseline.md`.
-2. Capture a clean baseline log and record it with `templates/tuning-entry-template.md`.
-3. Create your first session entry under `logs/` using the template.
+2. Capture a clean baseline log and record it with `docs/tuning-entry-template.md`.
+3. Save scanner log files under `HP Tuners/VCM Scanner/Logs/` (or `HP Tuners/Logs and Tunes/`).
 
 ## Core Reference
 

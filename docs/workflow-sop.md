@@ -76,7 +76,7 @@ Do not alter calibration until the following baseline metadata is recorded in [d
 
 ## 5. Minimum Scanner Evidence per Logging Pass
 
-Every tuning iteration logged in [templates/tuning-entry-template.md](file:///home/ls0775/source/repos/GMTuning/templates/tuning-entry-template.md) must record:
+Every tuning iteration logged in [docs/tuning-entry-template.md](file:///home/ls0775/source/repos/GMTuning/docs/tuning-entry-template.md) must record:
 - **Airflow Parameters:** RPM, MAP (kPa), MAF Hz, Dynamic Airflow (g/s), Cylinder Air Mass (g/cyl).
 - **Fueling Parameters:** STFT Bank 1/2 (%), Commanded EQ Ratio (`[50118.238]`), Measured Wideband Lambda (`[50119.238]`), Injector Pulse Width (ms).
 - **Ignition Parameters:** Final Spark Advance (°), Knock Retard (°).
