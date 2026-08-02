@@ -4,7 +4,37 @@ Complete reference for **HP Tuners VCM Scanner** logging, PID tokens, math param
 
 ---
 
-## 1. Master E38 PID & Channel Mapping Table
+## 1. Core Rule: LTFT Disable Strategy & Rationale (Transcript-Aligned)
+
+> [!IMPORTANT]
+> **Why are Long Term Fuel Trims (LTFTs) Disabled in E38 Reflash Tuning?**
+>
+> On GM E38 PCMs, **LTFT behavior in Open Loop (PE / WOT) is asymmetric**:
+> 1. **Positive LTFTs ($>0\%$):** If the PCM learns a positive trim in closed loop, it **carries over into Open Loop / Power Enrichment (WOT)**, adding uncommanded extra fuel at WOT.
+> 2. **Negative LTFTs ($<0\%$):** If the PCM learns a negative trim, it is **ignored** in Open Loop / WOT.
+>
+> **Project & Transcripts Rule:**
+> - **LTFTs are explicitly DISABLED** in the tune (`Engine -> Fuel -> Open & Closed Loop -> LTFT Enable Min ECT = 256°C`, `Max ECT = -40°C`).
+> - **Short Term Fuel Trims (STFTs) are RETAINED** for closed-loop cruise feedback because STFTs provide instantaneous correction without ever carrying over into Open Loop / WOT.
+> - **Road Cruise Logging:** Uses **STFT Only** (Bank 1 / Bank 2) as the primary closed-loop feedback metric.
+> - **Optional Reference:** If analyzing a stock ROM where LTFTs were retained, the combined trim math formula (`STFT + LTFT`) is used.
+
+---
+
+## 2. Rule 0: Fueling Units Consistency (Lambda Only)
+
+To prevent severe calibration errors, **never mix Air-Fuel Ratio (AFR) and Lambda ($\lambda$) / Equivalence Ratio (EQ) units** in the same VCM Scanner layout or filter setup.
+
+- **Project Standard:** **Equivalence Ratio / Lambda ($\lambda$) Only**.
+- **Equivalence Ratio ($EQ$):** $EQ = \frac{\text{Stoich AFR}}{\text{Actual AFR}} = \frac{1}{\lambda}$
+- **At Stoichiometric Target (Closed Loop):**
+  $$\text{Commanded EQ } [50118.238] = 1.00 \quad (\lambda = 1.00)$$
+- **Under Power Enrichment Target (Open Loop WOT):**
+  $$\text{Commanded EQ } [50118.238] = 1.174 \quad (\lambda = 0.85 \approx 12.5:1 \text{ AFR on 14.67 stoich})$$
+
+---
+
+## 3. Master E38 PID & Channel Mapping Table
 
 This table maps VCM Scanner parameter names, PID tokens, engineering units, and primary tuning applications for the GM E38 ECM and 6L80E TCM.
 
@@ -26,10 +56,10 @@ This table maps VCM Scanner parameter names, PID tokens, engineering units, and 
 | **Intake Valve Temp** | Intake Valve Temp (IVT) | `[2127.241]` | °C | Fuel charge temperature compensation |
 | **Commanded Lambda** | Equivalence Ratio Commanded | `[50118.238]` | EQ ($\lambda^{-1}$) | ECU commanded EQ ratio target ($1.00 = \text{Stoich}$) |
 | **Wideband Lambda** | WB EQ Ratio 1 / Lambda | `[50119.238]` | $\lambda$ | Measured exhaust Equivalence Ratio / Wideband Lambda |
-| **Short Term Trim B1** | Short Term Fuel Trim Bank 1 | `[50156.156]` | % | Closed-loop immediate feedback correction Bank 1 |
-| **Short Term Trim B2** | Short Term Fuel Trim Bank 2 | `[50158.156]` | % | Closed-loop immediate feedback correction Bank 2 |
-| **Long Term Trim B1** | Long Term Fuel Trim Bank 1 | `[50155.156]` | % | Closed-loop learned feedback correction Bank 1 |
-| **Long Term Trim B2** | Long Term Fuel Trim Bank 2 | `[50157.156]` | % | Closed-loop learned feedback correction Bank 2 |
+| **Short Term Trim B1** | Short Term Fuel Trim Bank 1 | `[50156.156]` | % | Closed-loop immediate feedback correction Bank 1 (Active) |
+| **Short Term Trim B2** | Short Term Fuel Trim Bank 2 | `[50158.156]` | % | Closed-loop immediate feedback correction Bank 2 (Active) |
+| **Long Term Trim B1** | Long Term Fuel Trim Bank 1 | `[50155.156]` | % | Disabled in tune; reference only for stock baseline |
+| **Long Term Trim B2** | Long Term Fuel Trim Bank 2 | `[50157.156]` | % | Disabled in tune; reference only for stock baseline |
 | **Spark Advance** | Total Spark Advance | `[50110.161]` | Deg (°) | Actual delivered ignition timing |
 | **Knock Retard** | Knock Retard | `[50111.161]` | Deg (°) | ECU timing retard in response to detonation |
 | **Burst Knock Retard** | Burst Knock Retard | `[2120.161]` | Deg (°) | Preemptive timing retard on rapid throttle delta |
@@ -39,37 +69,25 @@ This table maps VCM Scanner parameter names, PID tokens, engineering units, and 
 
 ---
 
-## 2. Hard Rule: Unit Consistency (Lambda Only)
+## 4. Road Logging Workflows
 
-To prevent severe calibration errors, **never mix Air-Fuel Ratio (AFR) and Lambda ($\lambda$) / Equivalence Ratio (EQ) units** in the same VCM Scanner layout or filter setup.
-
-- **Project Standard:** **Equivalence Ratio / Lambda ($\lambda$) Only**.
-- **Equivalence Ratio ($EQ$):** $EQ = \frac{\text{Stoich AFR}}{\text{Actual AFR}} = \frac{1}{\lambda}$
-- **At Stoichiometric Target (Closed Loop):**
-  $$\text{Commanded EQ } [50118.238] = 1.00 \quad (\lambda = 1.00)$$
-- **Under Power Enrichment Target (Open Loop WOT):**
-  $$\text{Commanded EQ } [50118.238] = 1.174 \quad (\lambda = 0.85 \approx 12.5:1 \text{ AFR on 14.67 stoich})$$
-
----
-
-## 3. Road Logging Workflows
-
-### A) Closed-Loop (CL) Road Logging Strategy (Street Cruise Trimming)
-- **Objective:** Gather smooth, steady-state fuel trim data to verify cruise airflow models (MAF & VVE) without wideband dependency.
+### A) Closed-Loop (CL) Road Logging Strategy (STFT Cruise Trimming)
+- **Objective:** Gather steady-state STFT fuel trim data during normal street cruising to confirm cruise airflow calibration without LTFT carry-over contamination.
 - **Preconditions:**
-  - LTFTs active (or STFTs monitored if LTFT disabled).
+  - **LTFTs Disabled** in PCM (`Min ECT = 256°C`, `Max ECT = -40°C`).
+  - STFTs active for real-time closed-loop correction.
   - Engine fully warm ($\text{ECT} = 85\text{--}95^\circ\text{C}$).
   - DFCO active (filtered out in Scanner histograms).
 - **Driving Technique:**
   - Drive in 3rd or 4th gear at steady road speeds (60 km/h, 80 km/h, 100 km/h).
   - Apply slow, gradual throttle inputs; avoid sharp stabs or sudden lifts.
   - Collect 15–30 minutes of continuous road logging to accumulate $\ge 50\text{--}100+$ hits per cell.
-- **Histogram Target:** Short Term Fuel Trim (or Combined STFT+LTFT) within **$\pm 5\%$** (ideally near $0\%$).
+- **Histogram Target:** Short Term Fuel Trim (STFT) within **$\pm 5\%$** (ideally near $0\%$).
 
 ### B) Open-Loop (OL) / Wideband Road Logging Strategy (WOT & Air Model Rescaling)
 - **Objective:** Calibrate MAF frequency curve and VVE map accurately using wideband measured Lambda error.
 - **Preconditions:**
-  - STFTs and LTFTs disabled (or Open Loop forced in ECU setup).
+  - STFTs disabled during open-loop calibration passes (`Closed Loop Enable ECT = 256°C`).
   - Commanded EQ forced flat to $1.00$ for cruise scaling or set to PE target ($1.174$) for WOT pulls.
 - **Driving Technique:**
   - **MAF / VVE Cruise Scaling:** Steady-state dyno hold or smooth road acceleration in high gear.
@@ -79,11 +97,11 @@ To prevent severe calibration errors, **never mix Air-Fuel Ratio (AFR) and Lambd
 
 ---
 
-## 4. Modern Filter Catalog (Copy/Paste Expressions)
+## 5. Modern Filter Catalog (Copy/Paste Expressions)
 
 ### Category A: MAF Rescaling Filters
 
-#### A1 — MAF Closed-Loop Steady-State (Strict High-Quality Filter)
+#### A1 — MAF Closed-Loop STFT Steady-State Filter
 Suppresses throttle transients, deceleration overrun, cold engine conditions, and knock events during MAF cruise calibration:
 
 ```text
@@ -101,7 +119,7 @@ Isolates WOT MAF operation and ignores the initial 800ms transient tip-in spike:
 
 ### Category B: Virtual VE (VVE / Speed Density) Filters
 
-#### B1 — VVE Closed-Loop Steady-State (Strict SD Filter)
+#### B1 — VVE Closed-Loop STFT Steady-State Filter
 Ensures pristine data quality for RPM vs MAP cells during Speed Density calibration passes:
 
 ```text
@@ -130,7 +148,7 @@ Isolates the first 700ms of sudden pedal application ($>80\%$) to analyze transi
 
 ### Category D: Mixed-Mode Real World Validation Filters
 
-#### D1 — Blended Mode Road Cruise Trims Validation
+#### D1 — Blended Mode Road Cruise STFT Validation
 Validates Short Term Fuel Trims under real-world street cruise conditions (MAF + VVE active):
 
 ```text
@@ -146,7 +164,7 @@ Checks real-world WOT fueling tracking and knock retard in 3rd/4th gear pulls:
 
 ---
 
-## 5. Confirmed Math Channel Definitions & Formulas
+## 6. Confirmed Math Channel Definitions & Formulas
 
 Use these formulas when setting up VCM Scanner custom Math Parameters (`Tools -> Math Parameters`):
 
@@ -162,8 +180,8 @@ $$\text{EQ Error \%} = \frac{\text{WB Lambda} - \text{Cmd Lambda}}{\text{Cmd Lam
 
 ---
 
-### 2. Combined Fuel Trim % (STFT + LTFT)
-Calculates total closed-loop fuel correction percentage:
+### 2. Combined Fuel Trim % (STFT + LTFT) — Stock Reference Only
+Used ONLY when analyzing an un-tuned stock ROM where LTFTs were retained:
 
 $$\text{Combined Trim \%} = \text{STFT Bank 1} + \text{LTFT Bank 1}$$
 
@@ -194,7 +212,7 @@ Calculates percentage error between Dynamic Airflow model and Virtual VE calcula
 
 ---
 
-## 6. Histogram Setup Quick Reference Guide
+## 7. Histogram Setup Quick Reference Guide
 
 | Graph / Histogram Name | Parameter Plotted | X-Axis (Columns) | Y-Axis (Rows) | Copy Axis Breakpoints From VCM Editor |
 |---|---|---|---|---|
