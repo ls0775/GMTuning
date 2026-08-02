@@ -1,0 +1,13 @@
+HP Tuners CSV Log File
+Version: 1.0
+
+[Log Information]
+Creation Time: HPL Converted Log
+Notes:
+
+[Channel Information]
+0,12,2114,13,2120,14100,15,66,2127,5,4100,6200,6210,20,24,2630,3,2320,68,10,2311,2321,2301,259,67,69,16,11,76,14,6201,73,17,6310,6,7,8,9,2146,6215,47,12801,12865,12866,46,40152
+Offset,Engine RPM (SAE),Accelerator Pedal Position,Vehicle Speed (SAE),Engine Oil Pressure,Trans Current Gear,Intake Air Temp (SAE),Control Module Voltage (SAE),Intake Air Temp,Engine Coolant Temp (SAE),Trans Fluid Temp,Injector Pulse Width Avg. Bank 1,Injector Flow Rate,O2 Voltage B1S1 (SAE),O2 Voltage B2S1 (SAE),Knock Retard,Fuel System #1 Status (SAE),Dynamic Airflow,Equivalence Ratio Commanded (SAE),Fuel Pressure (SAE),Volumetric Efficiency Airflow,Cylinder Airmass,Mass Airflow Sensor,Fuel System #2 Status (SAE),Absolute Load (SAE),Relative Throttle Position (SAE),Mass Airflow (SAE),Intake Manifold Absolute Pressure (SAE),Commanded Throttle Actuator (SAE),Timing Advance (SAE),Injector Pulse Width Avg. Bank 2,Accelerator Position D (SAE),Throttle Position (SAE),Fuel Trim Cell,Short Term Fuel Trim Bank 1 (SAE),Long Term Fuel Trim Bank 1 (SAE),Short Term Fuel Trim Bank 2 (SAE),Long Term Fuel Trim Bank 2 (SAE),Intake Valve Temp,Injector Tip Temp,Fuel Level Input (SAE),EVAP Status,Power Enrichment,DFCO Active,Commanded EVAP Purge (SAE),MPVI2.1 -> Innovate - LC-1
+s,rpm,%,km/h,psi,,°C,V,°C,°C,°C,ms,g/s,V,V,°,,g/s,λ,kPa,g/s,g,Hz,,%,%,g/s,kPa,%,°,ms,%,%,,%,%,%,%,°C,°C,%,,,,%,λ
+
+[Channel Data]
