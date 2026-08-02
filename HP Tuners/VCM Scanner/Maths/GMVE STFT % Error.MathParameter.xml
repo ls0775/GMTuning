@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MathParameter Notes="" Decimals="0" Unit="150" Expression="(([16.71]*(1+(.01*[6.156]+.01*[8.156])/2)-[12.56]/60*4*[11.92]*[2312]/[2127.240])/([12.56]/60*4*[11.92]*[2312]/[2127.240]))*100" Abbreviation="" Name="GMVE STFT % Error" />

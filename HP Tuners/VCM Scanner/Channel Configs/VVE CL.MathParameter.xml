@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MathParameter Notes="((DynAir+(DynAir*(STFT + LTFT)/100))-VVE)/VVE*100" Decimals="2" Unit="156" Expression="(([2320.71]+([2320.71]*([50116.156]+[50114.156])/100))-[2311.71])/[2311.71]*100" Abbreviation="VVE CL" Name="VVE CL" />

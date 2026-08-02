@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Graphs>
+  <Table>
+    <Label>Spark Advance</Label>
+    <ParameterID>50110</ParameterID>
+    <Unit>161</Unit>
+    <HighValue>40</HighValue>
+    <HighValueColor>-11765250</HighValueColor>
+    <MiddleValue>10</MiddleValue>
+    <LowValueColor>-1</LowValueColor>
+    <ColumnParameterID>50070</ColumnParameterID>
+    <ColumnUnit>56</ColumnUnit>
+    <ColumnAxis>400,800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800</ColumnAxis>
+    <ColumnAxisVisualFactor>1000</ColumnAxisVisualFactor>
+    <RowParameterID>50030</RowParameterID>
+    <RowUnit>91</RowUnit>
+    <RowAxis>15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105</RowAxis>
+  </Table>
+  <Table>
+    <Label>Spark Retard</Label>
+    <ParameterID>50111</ParameterID>
+    <Unit>161</Unit>
+    <HighValue>10</HighValue>
+    <HighValueColor>-65536</HighValueColor>
+    <LowValueColor>-1</LowValueColor>
+    <ColumnParameterID>50070</ColumnParameterID>
+    <ColumnUnit>56</ColumnUnit>
+    <ColumnAxis>400,800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800</ColumnAxis>
+    <ColumnAxisVisualFactor>1000</ColumnAxisVisualFactor>
+    <RowParameterID>50030</RowParameterID>
+    <RowUnit>91</RowUnit>
+    <RowAxis>15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105</RowAxis>
+  </Table>
+  <Table>
+    <Label>LT Fuel Trim</Label>
+    <ParameterID>50114</ParameterID>
+    <Unit>156</Unit>
+    <HighValue>25</HighValue>
+    <HighValueColor>-65536</HighValueColor>
+    <LowValue>-25</LowValue>
+    <LowValueColor>-16711936</LowValueColor>
+    <ColumnParameterID>50070</ColumnParameterID>
+    <ColumnUnit>56</ColumnUnit>
+    <ColumnAxis>400,800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800</ColumnAxis>
+    <ColumnAxisVisualFactor>1000</ColumnAxisVisualFactor>
+    <RowParameterID>50030</RowParameterID>
+    <RowUnit>91</RowUnit>
+    <RowAxis>15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105</RowAxis>
+  </Table>
+  <Table>
+    <Label>ST Fuel Trim</Label>
+    <ParameterID>50116</ParameterID>
+    <Unit>156</Unit>
+    <HighValue>25</HighValue>
+    <HighValueColor>-65536</HighValueColor>
+    <LowValue>-25</LowValue>
+    <LowValueColor>-16711936</LowValueColor>
+    <ColumnParameterID>50070</ColumnParameterID>
+    <ColumnUnit>56</ColumnUnit>
+    <ColumnAxis>400,800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800</ColumnAxis>
+    <ColumnAxisVisualFactor>1000</ColumnAxisVisualFactor>
+    <RowParameterID>50030</RowParameterID>
+    <RowUnit>91</RowUnit>
+    <RowAxis>15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105</RowAxis>
+  </Table>
+  <Table>
+    <Label>O2</Label>
+    <ParameterID>50119</ParameterID>
+    <Unit>238</Unit>
+    <Decimals>2</Decimals>
+    <HighValue>1.4</HighValue>
+    <HighValueColor>-16711936</HighValueColor>
+    <MiddleValue>1</MiddleValue>
+    <LowValue>0.6</LowValue>
+    <LowValueColor>-65536</LowValueColor>
+    <ColumnParameterID>50070</ColumnParameterID>
+    <ColumnUnit>56</ColumnUnit>
+    <ColumnAxis>400,800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800</ColumnAxis>
+    <ColumnAxisVisualFactor>1000</ColumnAxisVisualFactor>
+    <RowParameterID>50030</RowParameterID>
+    <RowUnit>91</RowUnit>
+    <RowAxis>15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105</RowAxis>
+  </Table>
+  <Table>
+    <Label>O2 Error</Label>
+    <FilterFunction>([50070.56.slope(50)] &lt; 100 and [50070.56.slope(50)] &gt; -100) and ([50090.155.slope(100)] &lt; 1 and [50090.155.slope(100)] &gt; -1) </FilterFunction>
+    <ParameterID>60010</ParameterID>
+    <Unit>238</Unit>
+    <Decimals>1</Decimals>
+    <CellHitsRequired>10</CellHitsRequired>
+    <HighValue>20</HighValue>
+    <HighValueColor>-65536</HighValueColor>
+    <LowValue>-20</LowValue>
+    <LowValueColor>-16711936</LowValueColor>
+    <ColumnParameterID>50070</ColumnParameterID>
+    <ColumnUnit>56</ColumnUnit>
+    <ColumnAxis>400,800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800</ColumnAxis>
+    <ColumnAxisVisualFactor>1000</ColumnAxisVisualFactor>
+    <RowParameterID>50030</RowParameterID>
+    <RowUnit>91</RowUnit>
+    <RowAxis>15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100,105</RowAxis>
+  </Table>
+  <Histogram>
+    <Label>RPM</Label>
+    <ViewZoomDataOnly>True</ViewZoomDataOnly>
+    <ColumnParameterID>50070</ColumnParameterID>
+    <ColumnUnit>56</ColumnUnit>
+    <ColumnAxis>400,800,1200,1600,2000,2400,2800,3200,3600,4000,4400,4800,5200,5600,6000,6400,6800</ColumnAxis>
+  </Histogram>
+  <Table>
+    <Label>EQ Err SD</Label>
+    <FilterFunction>[50090.156] &gt; 25</FilterFunction>
+    <ParameterID>60010</ParameterID>
+    <Unit>156</Unit>
+    <Decimals>1</Decimals>
+    <CellHitsRequired>50</CellHitsRequired>
+    <HighValue>10</HighValue>
+    <HighValueColor>-65536</HighValueColor>
+    <LowValue>-10</LowValue>
+    <LowValueColor>-16711936</LowValueColor>
+    <ColumnParameterID>50030</ColumnParameterID>
+    <ColumnUnit>91</ColumnUnit>
+    <ColumnAxis>15,22.5,30,32.5,35,37.5,40,42.5,45,47.5,50,52.5,55,57.5,60,62.5,65,67.5,70,72.5,75,77.5,80,82.5,85,87.5,90,92.5,95,97.5,100,102.5,105</ColumnAxis>
+    <RowParameterID>50070</RowParameterID>
+    <RowUnit>56</RowUnit>
+    <RowAxis>400,600,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200,3400,3600,3800,4000,4200,4400,4600,4800,5000,5200,5400,5600,5800,6000,6200,6400,6600,6800</RowAxis>
+  </Table>
+  <Table>
+    <Label>STFT Err SD</Label>
+    <FilterFunction>([50070.56.slope(50)] &lt; 100 and [50070.56.slope(50)] &gt; -100) and ([50090.155.slope(100)] &lt; 1 and [50090.155.slope(100)] &gt; -1) </FilterFunction>
+    <ParameterID>61011</ParameterID>
+    <Unit>156</Unit>
+    <Decimals>1</Decimals>
+    <CellHitsRequired>10</CellHitsRequired>
+    <HighValue>10</HighValue>
+    <HighValueColor>-65536</HighValueColor>
+    <LowValue>-10</LowValue>
+    <LowValueColor>-16711936</LowValueColor>
+    <ColumnParameterID>50030</ColumnParameterID>
+    <ColumnUnit>91</ColumnUnit>
+    <ColumnAxis>15,22.5,30,32.5,35,37.5,40,42.5,45,47.5,50,52.5,55,57.5,60,62.5,65,67.5,70,72.5,75,77.5,80,82.5,85,87.5,90,92.5,95,97.5,100,102.5,105</ColumnAxis>
+    <RowParameterID>50070</RowParameterID>
+    <RowUnit>56</RowUnit>
+    <RowAxis>400,600,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3200,3400,3600,3800,4000,4200,4400,4600,4800,5000,5200,5400,5600,5800,6000,6200,6400,6600,6800</RowAxis>
+  </Table>
+</Graphs>

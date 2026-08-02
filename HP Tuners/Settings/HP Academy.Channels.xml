@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Channels>
+  <channel ParameterID="12" OBDControllerRouteID="2024" Interval="00:00:00.2000000" />
+  <channel ParameterID="13" OBDControllerRouteID="2024" Interval="00:00:00.5000000" />
+  <channel ParameterID="14100" OBDControllerRouteID="2024" Interval="00:00:01" />
+  <channel ParameterID="0" />
+  <channel ParameterID="5" OBDControllerRouteID="2024" Interval="00:00:05" />
+  <channel ParameterID="15" OBDControllerRouteID="2024" Interval="00:00:01" />
+  <channel ParameterID="16" Interval="00:00:00.2000000" />
+  <channel ParameterID="11" Interval="00:00:00.2000000" />
+  <channel ParameterID="14" Interval="00:00:00.2000000" />
+  <channel ParameterID="0" />
+  <channel ParameterID="2120" OBDControllerRouteID="2024" ParamterType="2" Interval="00:00:00.5000000" />
+  <channel ParameterID="12865" Interval="00:00:01" />
+  <channel ParameterID="6310" Interval="00:00:00.5000000" />
+  <channel ParameterID="12866" Interval="00:00:01" />
+  <channel ParameterID="46" Interval="00:00:01" />
+  <channel ParameterID="12801" Interval="00:00:01" />
+  <channel ParameterID="0" />
+  <channel ParameterID="73" Interval="00:00:00.2000000" />
+  <channel ParameterID="17" Interval="00:00:00.2000000" />
+  <channel ParameterID="69" Interval="00:00:00.2000000" />
+  <channel ParameterID="76" Interval="00:00:00.2000000" />
+  <channel ParameterID="0" />
+  <channel ParameterID="68" Interval="00:00:00.2000000" />
+  <channel ParameterID="30011" TransformID="40152" />
+  <channel ParameterID="0" />
+  <channel ParameterID="20" Interval="00:00:00.2000000" />
+  <channel ParameterID="24" Interval="00:00:00.2000000" />
+  <channel ParameterID="2630" Interval="00:00:00.2000000" />
+  <channel ParameterID="3" Interval="00:00:00.2000000" />
+  <channel ParameterID="259" Interval="00:00:00.2000000" />
+  <channel ParameterID="6" Interval="00:00:00.5000000" />
+  <channel ParameterID="7" Interval="00:00:00.5000000" />
+  <channel ParameterID="8" Interval="00:00:00.5000000" />
+  <channel ParameterID="9" Interval="00:00:00.5000000" />
+  <channel ParameterID="0" />
+  <channel ParameterID="10" Interval="00:00:00.2000000" />
+  <channel ParameterID="0" />
+  <channel ParameterID="47" Interval="00:00:01" />
+  <channel ParameterID="2321" Interval="00:00:00.2000000" />
+  <channel ParameterID="66" OBDControllerRouteID="2024" Interval="00:00:01" />
+  <channel ParameterID="2301" Interval="00:00:00.2000000" />
+  <channel ParameterID="67" Interval="00:00:00.2000000" />
+  <channel ParameterID="0" />
+  <channel ParameterID="2311" Interval="00:00:00.2000000" />
+  <channel ParameterID="2320" Interval="00:00:00.2000000" />
+  <channel ParameterID="0" />
+  <channel ParameterID="0" />
+  <channel ParameterID="0" />
+  <channel ParameterID="0" />
+  <channel ParameterID="0" />
+  <channel ParameterID="0" />
+  <channel ParameterID="0" />
+</Channels>

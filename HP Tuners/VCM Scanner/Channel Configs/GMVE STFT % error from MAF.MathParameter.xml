@@ -1,0 +1,2 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MathParameter Notes="((MAF_af)*(1+(STFT_avg)/100)-(GMVE_af))/(GMVE_af)*100" Decimals="1" Unit="156" Expression="(([16.71]*(1+(.01*[6.156]+.01*[8.156])/2)-[12.56]/60*4*[11.92]*[2312]/[2127.240])/([12.56]/60*4*[11.92]*[2312]/[2127.240]))*100" Abbreviation="GMVE STFT" Name="GMVE STFT % error from MAF" />
