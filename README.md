@@ -36,3 +36,5 @@ Transcript notes should map to this sequence:
 Use `docs/e38-l98-maf-vve-reflash-playbook.md` as the transcript-derived operating playbook for this project.
 
 For Scanner setup and clean-data filtering, use `docs/e38-vcm-scanner-pid-filter-kb.md`.
+
+For Innovate LC-1 Free Air calibration and ground offset correction, use `docs/innovate-lc1-calibration-guide.md`.
