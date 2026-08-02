@@ -1,183 +1,205 @@
-# E38 VCM Scanner Numeric Token KB (`[PID.Unit]`)
+# E38 VCM Scanner PID & Filter Knowledge Base (Modernized)
 
-Built from your files:
+Complete reference for **HP Tuners VCM Scanner** logging, PID tokens, math parameters, and filter expressions for **GM E38 PCM (Gen IV LS3 / L98 V8)**. Designed for consistent, high-quality road and dyno data logging in both **Closed-Loop (CL)** and **Open-Loop (OL)** modes.
 
-- `HP Academy SD Patch.Layout.xml`
-- `HP Academy SD Patch.Graphs.xml`
-- `HP Academy SD Patch.Channels.xml`
-- `VE SS Worked Example.Channels.xml`
-- all provided `*.MathParameter.xml`
+---
 
-This now uses the exact Scanner token style you asked for, e.g. **`[50118.238]`**.
+## 1. Master E38 PID & Channel Mapping Table
 
-## Rule 0 - Fueling Units Consistency (Hard Rule)
+This table maps VCM Scanner parameter names, PID tokens, engineering units, and primary tuning applications for the GM E38 ECM and 6L80E TCM.
 
-Do not mix AFR-based and lambda-based filters/math in the same tuning workflow.
+| Parameter Name | Channel Name | PID Token | Units | Primary Tuning Application |
+|---|---|---|---|---|
+| **Engine Speed** | Engine Speed | `[50070.56]` | RPM | Primary X-axis for VE, spark, & PE tables |
+| **Manifold Pressure** | Manifold Absolute Pressure | `[50030.91]` | kPa | Load Y-axis for VVE tables & fuel mode cutovers |
+| **Barometric Pressure** | Baro Pressure | `[50031.91]` | kPa | Ambient pressure correction baseline |
+| **MAF Frequency** | Mass Air Flow Frequency | `[50080.50]` | Hz | X-axis for MAF Calibration curve (2700–12000+ Hz) |
+| **MAF Airflow** | Mass Air Flow | `[50040.71]` | g/s | Direct mass airflow measurement from sensor |
+| **Dynamic Airflow** | Dynamic Airflow | `[2320.71]` | g/s | ECU calculated airflow source (blended MAF/SD) |
+| **VVE Airflow** | Calculated VE Airflow | `[2311.71]` | g/s | Speed density calculated airflow from VVE model |
+| **Cylinder Air Mass** | Air Mass / Airmass | `[2321.56]` | g/cyl | Y-axis load for Spark Advance & Knock Retard maps |
+| **Vehicle Speed** | Vehicle Speed | `[50020.113]` | km/h | Road speed & transmission gear validation |
+| **Throttle Position** | Throttle Position (SAE) | `[50090.156]` | % | Throttle plate position for PE entry & transient filters |
+| **Accelerator Pedal** | Accelerator Pedal Position | `[76.156]` | % | Driver pedal input for PE entry & tip-in filters |
+| **Engine Coolant Temp** | Engine Coolant Temp | `[50010.241]` | °C | Thermal filter baseline (validates 80–105°C range) |
+| **Intake Air Temp** | Intake Air Temp | `[50011.241]` | °C | Air density filter baseline (validates < 50°C window) |
+| **Intake Valve Temp** | Intake Valve Temp (IVT) | `[2127.241]` | °C | Fuel charge temperature compensation |
+| **Commanded Lambda** | Equivalence Ratio Commanded | `[50118.238]` | EQ ($\lambda^{-1}$) | ECU commanded EQ ratio target ($1.00 = \text{Stoich}$) |
+| **Wideband Lambda** | WB EQ Ratio 1 / Lambda | `[50119.238]` | $\lambda$ | Measured exhaust Equivalence Ratio / Wideband Lambda |
+| **Short Term Trim B1** | Short Term Fuel Trim Bank 1 | `[50156.156]` | % | Closed-loop immediate feedback correction Bank 1 |
+| **Short Term Trim B2** | Short Term Fuel Trim Bank 2 | `[50158.156]` | % | Closed-loop immediate feedback correction Bank 2 |
+| **Long Term Trim B1** | Long Term Fuel Trim Bank 1 | `[50155.156]` | % | Closed-loop learned feedback correction Bank 1 |
+| **Long Term Trim B2** | Long Term Fuel Trim Bank 2 | `[50157.156]` | % | Closed-loop learned feedback correction Bank 2 |
+| **Spark Advance** | Total Spark Advance | `[50110.161]` | Deg (°) | Actual delivered ignition timing |
+| **Knock Retard** | Knock Retard | `[50111.161]` | Deg (°) | ECU timing retard in response to detonation |
+| **Burst Knock Retard** | Burst Knock Retard | `[2120.161]` | Deg (°) | Preemptive timing retard on rapid throttle delta |
+| **Injector Pulse Width B1**| Injector Pulse Width Bank 1 | `[50151.254]` | ms | Fuel injector duration Bank 1 |
+| **Injector Pulse Width B2**| Injector Pulse Width Bank 2 | `[50152.254]` | ms | Fuel injector duration Bank 2 |
+| **Current Gear** | Trans Current Gear | `[6001.1]` | Gear | 6L80E current gear state (1–6) |
 
-1. Choose one unit system per project.
-2. Apply that same unit system to CL filters, PE filters, math channels, and validation charts.
-3. If changing unit system, rebuild all dependent filters/math together before logging.
+---
 
-**Project rule for this repo:** use **lambda only**.
+## 2. Hard Rule: Unit Consistency (Lambda Only)
 
-## 1) Confirmed token map (Name = token)
+To prevent severe calibration errors, **never mix Air-Fuel Ratio (AFR) and Lambda ($\lambda$) / Equivalence Ratio (EQ) units** in the same VCM Scanner layout or filter setup.
 
-| Name | Token |
-|---|---|
-| RPM | `[50070.56]` |
-| MAP kPa | `[50030.91]` |
-| MAF g/s | `[50040.71]` |
-| MAF Hz | `[50080.50]` |
-| Vehicle speed | `[50020.113]` |
-| ECT | `[50010.241]` |
-| IAT | `[50011.241]` |
-| TPS | `[50090.156]` |
-| Spark advance | `[50110.161]` |
-| KR | `[50111.161]` |
-| EQ Cmd | `[50118.238]` |
-| EQ (measured lambda/wideband path in this layout) | `[50119.238]` |
-| LTFT B1 | `[50155.156]` |
-| STFT B1 | `[50156.156]` |
-| LTFT B2 | `[50157.156]` |
-| STFT B2 | `[50158.156]` |
-| Injector B1 pulse width | `[50151.254]` |
-| Injector B2 pulse width | `[50152.254]` |
-| Dynamic Airflow (math/source channel) | `[2320.71]` |
-| VVE airflow channel used in math | `[2311.71]` |
+- **Project Standard:** **Equivalence Ratio / Lambda ($\lambda$) Only**.
+- **Equivalence Ratio ($EQ$):** $EQ = \frac{\text{Stoich AFR}}{\text{Actual AFR}} = \frac{1}{\lambda}$
+- **At Stoichiometric Target (Closed Loop):**
+  $$\text{Commanded EQ } [50118.238] = 1.00 \quad (\lambda = 1.00)$$
+- **Under Power Enrichment Target (Open Loop WOT):**
+  $$\text{Commanded EQ } [50118.238] = 1.174 \quad (\lambda = 0.85 \approx 12.5:1 \text{ AFR on 14.67 stoich})$$
 
-## 2) Your explicit example (confirmed)
+---
 
-At stoich/closed-loop target:
+## 3. Road Logging Workflows
+
+### A) Closed-Loop (CL) Road Logging Strategy (Street Cruise Trimming)
+- **Objective:** Gather smooth, steady-state fuel trim data to verify cruise airflow models (MAF & VVE) without wideband dependency.
+- **Preconditions:**
+  - LTFTs active (or STFTs monitored if LTFT disabled).
+  - Engine fully warm ($\text{ECT} = 85\text{--}95^\circ\text{C}$).
+  - DFCO active (filtered out in Scanner histograms).
+- **Driving Technique:**
+  - Drive in 3rd or 4th gear at steady road speeds (60 km/h, 80 km/h, 100 km/h).
+  - Apply slow, gradual throttle inputs; avoid sharp stabs or sudden lifts.
+  - Collect 15–30 minutes of continuous road logging to accumulate $\ge 50\text{--}100+$ hits per cell.
+- **Histogram Target:** Short Term Fuel Trim (or Combined STFT+LTFT) within **$\pm 5\%$** (ideally near $0\%$).
+
+### B) Open-Loop (OL) / Wideband Road Logging Strategy (WOT & Air Model Rescaling)
+- **Objective:** Calibrate MAF frequency curve and VVE map accurately using wideband measured Lambda error.
+- **Preconditions:**
+  - STFTs and LTFTs disabled (or Open Loop forced in ECU setup).
+  - Commanded EQ forced flat to $1.00$ for cruise scaling or set to PE target ($1.174$) for WOT pulls.
+- **Driving Technique:**
+  - **MAF / VVE Cruise Scaling:** Steady-state dyno hold or smooth road acceleration in high gear.
+  - **WOT Ramp Pulls:** 3rd or 4th gear pull from 2000 RPM up to redline.
+  - **Transport Delay Filter:** Use `.shift(800)` filter to ignore the first $700\text{--}800\text{ ms}$ after tip-in to exclude transient lean lag from corrupting steady-state WOT data.
+- **Histogram Target:** Wideband EQ Error % within **$\pm 1\%$**.
+
+---
+
+## 4. Modern Filter Catalog (Copy/Paste Expressions)
+
+### Category A: MAF Rescaling Filters
+
+#### A1 — MAF Closed-Loop Steady-State (Strict High-Quality Filter)
+Suppresses throttle transients, deceleration overrun, cold engine conditions, and knock events during MAF cruise calibration:
 
 ```text
-[50118.238] = 1
+([50080.50] > 2499) and ([50080.50] < 7201) and ([50118.238] > 0.989) and ([50118.238] < 1.011) and ([50119.238] > 0.90) and ([50119.238] < 1.10) and ([50111.161] < 0.1) and ([50010.241] > 79) and ([50010.241] < 106) and ([50011.241] < 50) and ([50090.156] > 8) and ([50070.56.slope(50)] < 100 and [50070.56.slope(50)] > -100) and ([50090.156.slope(100)] < 1 and [50090.156.slope(100)] > -1)
 ```
 
-## 3) Filter catalog (one-line, cut/paste, mapped IDs)
-
-Use separate histograms for each purpose. Pick the variant that matches current tuning objective.
-
-### A) MAF CL (MAF modeling at stoich)
-
-**A1 - strict steady-state (highest data quality):**
+#### A2 — MAF Power Enrichment (WOT Calibration Filter — Excludes Tip-In Lean Lag)
+Isolates WOT MAF operation and ignores the initial 800ms transient tip-in spike:
 
 ```text
-([50080.50] > 2499) and ([50080.50] < 7201) and ([50118.238] > 0.989) and ([50118.238] < 1.011) and ([50119.238] > 0.90) and ([50119.238] < 1.10) and ([50111.161] < 0.1) and ([50010.241] > 79) and ([50010.241] < 106) and ([50011.241] < 50) and ([50090.156] > 10) and ([50070.56.slope(50)] < 100 and [50070.56.slope(50)] > -100) and ([50090.156.slope(100)] < 1 and [50090.156.slope(100)] > -1)
+([50118.238] < 0.90) and ([50119.238] < 1.25) and ([50011.241] < 55) and ([76.156.shift(800)] > 80) and ([76.156] > 80) and ([50111.161] < 0.1)
 ```
 
-Why: best for clean MAF curve correction; heavily suppresses transients.
+---
 
-**A2 - moderate fill (more hits, slightly noisier):**
+### Category B: Virtual VE (VVE / Speed Density) Filters
 
-```text
-([50080.50] > 2199) and ([50080.50] < 7601) and ([50118.238] > 0.985) and ([50118.238] < 1.015) and ([50111.161] < 0.3) and ([50010.241] > 75) and ([50010.241] < 110) and ([50011.241] < 55) and ([50090.156] > 6)
-```
-
-Why: use when strict filter leaves sparse cells.
-
-### B) MAF PE (MAF modeling in PE)
-
-**B1 - model-calibration PE (exclude early tip-in lean):**
-
-```text
-([50118.238] < 0.90) and ([50119.238] < 1.25) and ([50011.241] < 50) and ([76.156.shift(800)] > 80) and ([76.156] > 80) and ([50111.161] < 0.1)
-```
-
-Why: ignores first ~800 ms after tip-in so transient lean lag does not pollute MAF PE correction.
-
-**B2 - transient-diagnosis PE (focus on tip-in event):**
-
-```text
-([50118.238] < 0.95) and ([50011.241] < 50) and ([76.156] > 80) and ([76.156.shift(700)] < 80)
-```
-
-Why: isolates CL->PE transition behavior; use to tune transient fueling separately from steady PE model.
-
-### C) VVE CL (SD/VVE modeling at stoich)
-
-**C1 - strict steady-state VVE CL:**
+#### B1 — VVE Closed-Loop Steady-State (Strict SD Filter)
+Ensures pristine data quality for RPM vs MAP cells during Speed Density calibration passes:
 
 ```text
 ([50070.56] > 999) and ([50070.56] < 4001) and ([50030.91] > 24) and ([50030.91] < 101) and ([50118.238] > 0.989) and ([50118.238] < 1.011) and ([50119.238] > 0.90) and ([50119.238] < 1.10) and ([50111.161] < 0.1) and ([50010.241] > 79) and ([50010.241] < 106) and ([50011.241] < 50) and ([50020.113] > 19) and ([50090.156] > 2) and ([50070.56.slope(50)] < 100 and [50070.56.slope(50)] > -100) and ([50090.156.slope(100)] < 1 and [50090.156.slope(100)] > -1)
 ```
 
-Why: best VVE cell quality for SD calibration pass.
-
-**C2 - moderate fill VVE CL:**
-
-```text
-([50070.56] > 899) and ([50070.56] < 4201) and ([50030.91] > 20) and ([50030.91] < 103) and ([50118.238] > 0.985) and ([50118.238] < 1.015) and ([50111.161] < 0.3) and ([50010.241] > 75) and ([50010.241] < 110) and ([50011.241] < 55)
-```
-
-Why: use when strict CL data is too sparse on road logs.
-
-### D) VVE PE (SD/VVE modeling in PE)
-
-**D1 - model-calibration PE (exclude early tip-in lean):**
+#### B2 — VVE Power Enrichment Filter (High Load SD Pass)
+Filters VVE data under WOT load while suppressing transient gearshift/tip-in spikes:
 
 ```text
-([50118.238] < 0.86) and ([50011.241] < 50) and ([50119.238] < 1.25) and ([76.156.shift(800)] > 80) and ([76.156] > 80) and ([50111.161] < 0.1)
+([50118.238] < 0.88) and ([50030.91] > 85) and ([50011.241] < 55) and ([50119.238] < 1.25) and ([76.156.shift(800)] > 80) and ([76.156] > 80) and ([50111.161] < 0.1)
 ```
 
-Why: your preferred PE filter; protects VVE PE from the first ~700-800 ms lean transition.
+---
 
-**D2 - transient-diagnosis PE (capture tip-in lean only):**
+### Category C: Transient & Tip-In Isolation Filters
+
+#### C1 — Transient Tip-In Lean Spike Isolation Filter
+Isolates the first 700ms of sudden pedal application ($>80\%$) to analyze transient fueling lag separately from steady-state air models:
 
 ```text
-([50118.238] < 0.95) and ([50011.241] < 50) and ([76.156] > 80) and ([76.156.shift(700)] < 80)
+([50118.238] < 0.95) and ([50011.241] < 55) and ([76.156] > 80) and ([76.156.shift(700)] < 80)
 ```
 
-Why: use to analyze and tune transient fueling strategy, not steady VVE table values.
+---
 
-### E) Mixed mode validation (MAF + VVE enabled)
+### Category D: Mixed-Mode Real World Validation Filters
 
-**E1 - cruise validation:**
+#### D1 — Blended Mode Road Cruise Trims Validation
+Validates Short Term Fuel Trims under real-world street cruise conditions (MAF + VVE active):
 
 ```text
 ([50070.56] > 1199) and ([50070.56] < 3001) and ([50030.91] > 29) and ([50030.91] < 76) and ([50118.238] > 0.989) and ([50118.238] < 1.011) and ([50119.238] > 0.90) and ([50119.238] < 1.10) and ([50111.161] < 0.1) and ([50010.241] > 79) and ([50010.241] < 106) and ([50011.241] < 50) and ([50020.113] > 49) and ([50090.156] > 1) and ([50090.156] < 36)
 ```
 
-Why: confirms blended-mode drivability and trims after both models are calibrated.
-
-**E2 - WOT validation:**
+#### D2 — Blended Mode WOT Road Knock & Lambda Validation
+Checks real-world WOT fueling tracking and knock retard in 3rd/4th gear pulls:
 
 ```text
 ([50118.238] < 0.90) and ([50119.238] < 1.25) and ([50011.241] < 55) and ([76.156] > 80) and ([50111.161] < 0.1)
 ```
 
-Why: checks real-world WOT fueling/knock in blended mode without forcing MAF-only or SD-only.
+---
 
-## 4) Confirmed math channel definitions from your files
+## 5. Confirmed Math Channel Definitions & Formulas
 
-### MAF PE (lambda method)
+Use these formulas when setting up VCM Scanner custom Math Parameters (`Tools -> Math Parameters`):
 
+### 1. Equivalence Ratio Error % (Lambda Error)
+Calculates percentage error between measured wideband lambda and commanded EQ ratio target:
+
+$$\text{EQ Error \%} = \frac{\text{WB Lambda} - \text{Cmd Lambda}}{\text{Cmd Lambda}} \times 100$$
+
+**VCM Scanner Formula:**
 ```text
-(([2320.71]+([2320.71]*([50119.238]-[50118.238])/[50118.238]))-[50040.71])/[50040.71]*100
+([50119.238] - [50118.238]) / [50118.238] * 100
 ```
 
-### VVE PE (lambda method)
+---
 
+### 2. Combined Fuel Trim % (STFT + LTFT)
+Calculates total closed-loop fuel correction percentage:
+
+$$\text{Combined Trim \%} = \text{STFT Bank 1} + \text{LTFT Bank 1}$$
+
+**VCM Scanner Formula:**
 ```text
-(([2320.71]+([2320.71]*([50119.238]-[50118.238])/[50118.238]))-[2311.71])/[2311.71]*100
+[50156.156] + [50155.156]
 ```
 
-### MAF CL
+---
 
+### 3. MAF Airflow Error % (Lambda Method)
+Calculates percentage error between Dynamic Airflow model and direct MAF measurement:
+
+**VCM Scanner Formula:**
 ```text
-(([2320.71]+([2320.71]*([50116.156]+[50114.156])/100))-[50040.71])/[50040.71]*100
+(([2320.71] + ([2320.71] * ([50119.238] - [50118.238]) / [50118.238])) - [50040.71]) / [50040.71] * 100
 ```
 
-### VVE CL
+---
 
+### 4. VVE Airflow Error % (Lambda Method)
+Calculates percentage error between Dynamic Airflow model and Virtual VE calculated airflow:
+
+**VCM Scanner Formula:**
 ```text
-(([2320.71]+([2320.71]*([50116.156]+[50114.156])/100))-[2311.71])/[2311.71]*100
+(([2320.71] + ([2320.71] * ([50119.238] - [50118.238]) / [50118.238])) - [2311.71]) / [2311.71] * 100
 ```
 
-## 5) Remaining unresolved tokens
+---
 
-These appear in your AFR-based math files but are not labeled in the provided layout/channels:
+## 6. Histogram Setup Quick Reference Guide
 
-- `[50120]`
-- `[50121]`
-
-Keep using the lambda pair (`[50118.238]`, `[50119.238]`) until those two are explicitly identified in Scanner.
+| Graph / Histogram Name | Parameter Plotted | X-Axis (Columns) | Y-Axis (Rows) | Copy Axis Breakpoints From VCM Editor |
+|---|---|---|---|---|
+| **MAF EQ Error %** | Wideband EQ Error % | MAF Frequency (`[50080.50]`) | N/A | `Engine -> Airflow -> MAF Calibration` |
+| **VVE EQ Error %** | Wideband EQ Error % | Engine Speed (`[50070.56]`) | MAP kPa (`[50030.91]`) | `Edit -> Virtual Volumetric Efficiency` |
+| **STFT Cruise %** | Short Term Fuel Trim B1 | Engine Speed (`[50070.56]`) | MAP kPa (`[50030.91]`) | `Edit -> Virtual Volumetric Efficiency` |
+| **Spark Advance Map** | Total Spark Advance (°) | Engine Speed (`[50070.56]`) | Air Mass (`[2321.56]`) | `Engine -> Spark -> High Octane` |
+| **Knock Retard Map** | Knock Retard (°) | Engine Speed (`[50070.56]`) | Air Mass (`[2321.56]`) | `Engine -> Spark -> High Octane` |
