@@ -34,7 +34,31 @@ To prevent severe calibration errors, **never mix Air-Fuel Ratio (AFR) and Lambd
 
 ---
 
-## 3. Master E38 PID & Channel Mapping Table
+## 3. Physical Transport Delay & Wideband Tailpipe Sniffer Calibration
+
+> [!WARNING]
+> **Understanding & Adjusting Wideband Transport Delay (`.shift(ms)`)**
+>
+> When using a wideband sensor mounted in a **tailpipe sniffer** (at the rear of the exhaust system):
+> 1. **Physical Distance & Gas Velocity:** Exhaust gases take time to travel down the primary headers, high-flow cats, dual 2.5" cat-back piping, mufflers, and tailpipe adapter to reach the sensor tip.
+> 2. **Variable Lag:** This delay is **NOT fixed at 800 ms**. It varies based on engine RPM, exhaust gas velocity, exhaust length, and wideband sensor response time:
+>    - At low RPM / tip-in: Delay can be **$1000\text{--}1400\text{ ms}$**.
+>    - At high RPM / 6000+ WOT pull: Delay can shrink to **$400\text{--}600\text{ ms}$**.
+> 3. **Risk of False Lean Corrections:** If the delay filter is too short, the initial transient lean spike (as exhaust gas travels down the pipe) will pollute steady-state WOT histograms. The tuner will falsely see a "lean" cell and add fuel to WOT cells that are already correctly calibrated, causing over-enrichment!
+
+### How the Tuner Measures & Adjusts the Delay Offset (`.shift(X)`)
+
+1. **Open VCM Scanner Chart View** for a logged WOT pull.
+2. **Find Pedal Step Timestamp ($T_{\text{pedal}}$):** Note the exact timestamp where `Accelerator Pedal Position [76.156]` crosses $>80\%$.
+3. **Find Wideband Settling Timestamp ($T_{\text{WB}}$):** Note the timestamp where `Wideband Lambda [50119.238]` drops and stabilizes at WOT target (e.g. $0.85\lambda$).
+4. **Calculate Measured Lag ($\Delta T$):**
+   $$\Delta T = T_{\text{WB}} - T_{\text{pedal}} \quad (\text{in milliseconds})$$
+5. **Update Filter String:** Replace `.shift(800)` in your VCM Scanner filter expression with `.shift(\Delta T)` (e.g. `.shift(1200)` for low-RPM tailpipe sniffer pulls or `.shift(600)` for front-collector bungs).
+6. **Verify Histogram Output:** Check that the histogram excludes the initial transient lean spike and populates only clean, steady-state WOT Lambda data.
+
+---
+
+## 4. Master E38 PID & Channel Mapping Table
 
 This table maps VCM Scanner parameter names, PID tokens, engineering units, and primary tuning applications for the GM E38 ECM and 6L80E TCM.
 
@@ -69,7 +93,7 @@ This table maps VCM Scanner parameter names, PID tokens, engineering units, and 
 
 ---
 
-## 4. Road Logging Workflows
+## 5. Road Logging Workflows
 
 ### A) Closed-Loop (CL) Road Logging Strategy (STFT Cruise Trimming)
 - **Objective:** Gather steady-state STFT fuel trim data during normal street cruising to confirm cruise airflow calibration without LTFT carry-over contamination.
@@ -92,12 +116,12 @@ This table maps VCM Scanner parameter names, PID tokens, engineering units, and 
 - **Driving Technique:**
   - **MAF / VVE Cruise Scaling:** Steady-state dyno hold or smooth road acceleration in high gear.
   - **WOT Ramp Pulls:** 3rd or 4th gear pull from 2000 RPM up to redline.
-  - **Transport Delay Filter:** Use `.shift(800)` filter to ignore the first $700\text{--}800\text{ ms}$ after tip-in to exclude transient lean lag from corrupting steady-state WOT data.
+  - **Transport Delay Filter:** Use `.shift(\Delta T)` filter (e.g. `.shift(800)` to `.shift(1200)`) to ignore the measured transport delay after tip-in, excluding transient lean lag from corrupting steady-state WOT data.
 - **Histogram Target:** Wideband EQ Error % within **$\pm 1\%$**.
 
 ---
 
-## 5. Modern Filter Catalog (Copy/Paste Expressions)
+## 6. Modern Filter Catalog (Copy/Paste Expressions)
 
 ### Category A: MAF Rescaling Filters
 
@@ -108,8 +132,8 @@ Suppresses throttle transients, deceleration overrun, cold engine conditions, an
 ([50080.50] > 2499) and ([50080.50] < 7201) and ([50118.238] > 0.989) and ([50118.238] < 1.011) and ([50119.238] > 0.90) and ([50119.238] < 1.10) and ([50111.161] < 0.1) and ([50010.241] > 79) and ([50010.241] < 106) and ([50011.241] < 50) and ([50090.156] > 8) and ([50070.56.slope(50)] < 100 and [50070.56.slope(50)] > -100) and ([50090.156.slope(100)] < 1 and [50090.156.slope(100)] > -1)
 ```
 
-#### A2 — MAF Power Enrichment (WOT Calibration Filter — Excludes Tip-In Lean Lag)
-Isolates WOT MAF operation and ignores the initial 800ms transient tip-in spike:
+#### A2 — MAF Power Enrichment (WOT Calibration Filter — Adjustable `.shift(X)` Delay)
+Isolates WOT MAF operation and ignores the measured transport delay (adjust `.shift(800)` to your measured $\Delta T$ ms offset):
 
 ```text
 ([50118.238] < 0.90) and ([50119.238] < 1.25) and ([50011.241] < 55) and ([76.156.shift(800)] > 80) and ([76.156] > 80) and ([50111.161] < 0.1)
@@ -126,8 +150,8 @@ Ensures pristine data quality for RPM vs MAP cells during Speed Density calibrat
 ([50070.56] > 999) and ([50070.56] < 4001) and ([50030.91] > 24) and ([50030.91] < 101) and ([50118.238] > 0.989) and ([50118.238] < 1.011) and ([50119.238] > 0.90) and ([50119.238] < 1.10) and ([50111.161] < 0.1) and ([50010.241] > 79) and ([50010.241] < 106) and ([50011.241] < 50) and ([50020.113] > 19) and ([50090.156] > 2) and ([50070.56.slope(50)] < 100 and [50070.56.slope(50)] > -100) and ([50090.156.slope(100)] < 1 and [50090.156.slope(100)] > -1)
 ```
 
-#### B2 — VVE Power Enrichment Filter (High Load SD Pass)
-Filters VVE data under WOT load while suppressing transient gearshift/tip-in spikes:
+#### B2 — VVE Power Enrichment Filter (High Load SD Pass — Adjustable `.shift(X)` Delay)
+Filters VVE data under WOT load while suppressing transport lag and gearshift/tip-in spikes (adjust `.shift(800)` to measured $\Delta T$):
 
 ```text
 ([50118.238] < 0.88) and ([50030.91] > 85) and ([50011.241] < 55) and ([50119.238] < 1.25) and ([76.156.shift(800)] > 80) and ([76.156] > 80) and ([50111.161] < 0.1)
@@ -138,7 +162,7 @@ Filters VVE data under WOT load while suppressing transient gearshift/tip-in spi
 ### Category C: Transient & Tip-In Isolation Filters
 
 #### C1 — Transient Tip-In Lean Spike Isolation Filter
-Isolates the first 700ms of sudden pedal application ($>80\%$) to analyze transient fueling lag separately from steady-state air models:
+Isolates the initial tip-in window ($>80\%$ pedal) to analyze transient fueling lag separately from steady-state air models:
 
 ```text
 ([50118.238] < 0.95) and ([50011.241] < 55) and ([76.156] > 80) and ([76.156.shift(700)] < 80)
@@ -164,7 +188,7 @@ Checks real-world WOT fueling tracking and knock retard in 3rd/4th gear pulls:
 
 ---
 
-## 6. Confirmed Math Channel Definitions & Formulas
+## 7. Confirmed Math Channel Definitions & Formulas
 
 Use these formulas when setting up VCM Scanner custom Math Parameters (`Tools -> Math Parameters`):
 
@@ -212,7 +236,7 @@ Calculates percentage error between Dynamic Airflow model and Virtual VE calcula
 
 ---
 
-## 7. Histogram Setup Quick Reference Guide
+## 8. Histogram Setup Quick Reference Guide
 
 | Graph / Histogram Name | Parameter Plotted | X-Axis (Columns) | Y-Axis (Rows) | Copy Axis Breakpoints From VCM Editor |
 |---|---|---|---|---|
